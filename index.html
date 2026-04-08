@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Odia Sikho — 60 Din Mein Odia Bol</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FFF8F0;
+  --bg-card: #FFFFFF;
+  --bg-warm: #FFF1E6;
+  --bg-accent: #FF6B35;
+  --bg-accent-soft: #FFE8DD;
+  --bg-phase: #2D4059;
+  --text-primary: #2D2D2D;
+  --text-secondary: #6B6B6B;
+  --text-accent: #FF6B35;
+  --text-light: #FFFFFF;
+  --odia: #E84545;
+  --hindi: #2D4059;
+  --usecase: #7B8FA1;
+  --success: #4CAF50;
+  --streak: #FFB347;
+  --bookmark: #FF6B6B;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── HEADER ─── */
+.app-header {
+  background: linear-gradient(135deg, #FF6B35 0%, #E84545 100%);
+  padding: 20px 16px 24px;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 24px rgba(255,107,53,0.3);
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.app-logo {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.5px;
+}
+
+.app-logo span { opacity: 0.8; font-weight: 600; font-size: 14px; margin-left: 6px; }
+
+.streak-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.streak-badge .fire { font-size: 18px; }
+
+/* Progress bar */
+.progress-wrapper {
+  margin-top: 4px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: white;
+  border-radius: 10px;
+  transition: width 0.6s ease;
+}
+
+/* ─── PHASE INDICATOR ─── */
+.phase-strip {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  background: var(--bg);
+}
+.phase-strip::-webkit-scrollbar { display: none; }
+
+.phase-chip {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.phase-chip.active {
+  background: var(--bg-phase);
+  color: white;
+  border-color: var(--bg-phase);
+  box-shadow: 0 4px 12px rgba(45,64,89,0.3);
+}
+
+.phase-chip.completed {
+  background: var(--success);
+  color: white;
+}
+
+/* ─── DAY SELECTOR ─── */
+.day-selector-area {
+  padding: 16px;
+}
+
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 6px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.day-grid.expanded {
+  max-height: 400px;
+  opacity: 1;
+  margin-top: 12px;
+}
+
+.day-dot {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+  border: 2px solid transparent;
+  position: relative;
+}
+
+.day-dot.locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.day-dot.completed {
+  background: var(--success);
+  color: white;
+}
+
+.day-dot.current {
+  border-color: var(--bg-accent);
+  color: var(--bg-accent);
+  background: var(--bg-accent-soft);
+  box-shadow: 0 0 0 3px rgba(255,107,53,0.15);
+}
+
+.day-dot.bookmarked::after {
+  content: '♥';
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  font-size: 8px;
+  color: var(--bookmark);
+}
+
+.day-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 18px;
+  background: var(--bg-card);
+  border: none;
+  border-radius: var(--radius);
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.day-toggle-btn .arrow {
+  transition: transform 0.3s ease;
+  font-size: 12px;
+}
+
+.day-toggle-btn .arrow.up { transform: rotate(180deg); }
+
+/* ─── MAIN CONTENT ─── */
+.main-content {
+  padding: 0 16px 120px;
+}
+
+/* ─── WELCOME SCREEN ─── */
+.welcome-screen {
+  text-align: center;
+  padding: 40px 20px;
+  animation: fadeUp 0.6s ease;
+}
+
+.welcome-emoji { font-size: 64px; margin-bottom: 16px; }
+
+.welcome-screen h2 {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.welcome-screen p {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 40px;
+  background: linear-gradient(135deg, #FF6B35, #E84545);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(255,107,53,0.35);
+  transition: var(--transition);
+}
+
+.start-btn:active { transform: scale(0.96); }
+
+/* ─── LESSON SCREEN ─── */
+.lesson-screen { display: none; animation: fadeUp 0.5s ease; }
+.lesson-screen.active { display: block; }
+
+.lesson-header {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.lesson-day-badge {
+  display: inline-block;
+  background: var(--bg-accent);
+  color: white;
+  padding: 4px 14px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.lesson-header h2 {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.lesson-header p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* Section card */
+.section-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  color: var(--text-primary);
+}
+
+.section-icon { font-size: 20px; }
+
+/* Toggle meanings */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.toggle-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.toggle-switch {
+  width: 44px;
+  height: 24px;
+  background: #ddd;
+  border-radius: 50px;
+  position: relative;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.toggle-switch.on { background: var(--success); }
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: var(--transition);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.toggle-switch.on::after { left: 22px; }
+
+/* Phrase card */
+.phrase-card {
+  background: var(--bg-warm);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  position: relative;
+  transition: var(--transition);
+  border-left: 4px solid var(--odia);
+}
+
+.phrase-card:active { transform: scale(0.98); }
+
+.phrase-odia {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--odia);
+  margin-bottom: 4px;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.phrase-hindi {
+  font-size: 14px;
+  color: var(--hindi);
+  font-weight: 600;
+  margin-bottom: 2px;
+  transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+.phrase-hindi.hidden { opacity: 0; max-height: 0; overflow: hidden; margin: 0; }
+
+.phrase-usecase {
+  font-size: 12px;
+  color: var(--usecase);
+  font-style: italic;
+  transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+.phrase-usecase.hidden { opacity: 0; max-height: 0; overflow: hidden; margin: 0; }
+
+.phrase-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.phrase-action-btn {
+  padding: 5px 12px;
+  border: none;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: 'Nunito', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-repeat {
+  background: #E3F2FD;
+  color: #1976D2;
+}
+
+.btn-copy {
+  background: #F3E5F5;
+  color: #7B1FA2;
+}
+
+.btn-bookmark {
+  background: #FCE4EC;
+  color: var(--bookmark);
+}
+
+.btn-bookmark.active {
+  background: var(--bookmark);
+  color: white;
+}
+
+/* Conversation */
+.convo-bubble {
+  padding: 12px 16px;
+  border-radius: 16px;
+  margin-bottom: 8px;
+  max-width: 85%;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.convo-bubble.left {
+  background: #E8EAF6;
+  border-bottom-left-radius: 4px;
+  margin-right: auto;
+}
+
+.convo-bubble.right {
+  background: var(--bg-accent-soft);
+  border-bottom-right-radius: 4px;
+  margin-left: auto;
+}
+
+.convo-speaker {
+  font-weight: 800;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 2px;
+}
+
+.convo-odia { font-weight: 700; color: var(--odia); }
+.convo-meaning { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+/* Pro tip */
+.pro-tip-box {
+  background: linear-gradient(135deg, #FFF9C4, #FFF3E0);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  border-left: 4px solid var(--streak);
+}
+
+.pro-tip-box p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+/* Revision */
+.revision-phrase {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+}
+
+.revision-num {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-accent);
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.revision-text { font-size: 14px; font-weight: 700; color: var(--odia); }
+.revision-meaning { font-size: 12px; color: var(--text-secondary); }
+
+/* ─── BOTTOM NAV ─── */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  padding: 12px 16px;
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  display: flex;
+  gap: 10px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+  z-index: 100;
+}
+
+.nav-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.nav-btn:active { transform: scale(0.96); }
+
+.btn-prev {
+  background: var(--bg);
+  color: var(--text-secondary);
+}
+
+.btn-next {
+  background: linear-gradient(135deg, #FF6B35, #E84545);
+  color: white;
+  box-shadow: 0 4px 16px rgba(255,107,53,0.3);
+}
+
+.btn-next:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ─── TOAST ─── */
+.toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--bg-phase);
+  color: white;
+  padding: 10px 24px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 200;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ─── REPEAT MODAL ─── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-box {
+  background: white;
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  text-align: center;
+  max-width: 320px;
+  width: 100%;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay.show .modal-box { transform: scale(1); }
+
+.modal-emoji { font-size: 48px; margin-bottom: 12px; }
+
+.modal-box h3 {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--odia);
+}
+
+.modal-box p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.modal-close-btn {
+  padding: 12px 32px;
+  background: var(--bg-accent);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in { animation: fadeUp 0.4s ease forwards; }
+
+.phrase-card { animation: fadeUp 0.4s ease backwards; }
+.phrase-card:nth-child(1) { animation-delay: 0.05s; }
+.phrase-card:nth-child(2) { animation-delay: 0.1s; }
+.phrase-card:nth-child(3) { animation-delay: 0.15s; }
+.phrase-card:nth-child(4) { animation-delay: 0.2s; }
+.phrase-card:nth-child(5) { animation-delay: 0.25s; }
+.phrase-card:nth-child(6) { animation-delay: 0.3s; }
+.phrase-card:nth-child(7) { animation-delay: 0.35s; }
+.phrase-card:nth-child(8) { animation-delay: 0.4s; }
+.phrase-card:nth-child(9) { animation-delay: 0.45s; }
+.phrase-card:nth-child(10) { animation-delay: 0.5s; }
+
+/* ─── BOOKMARKS VIEW ─── */
+.bookmarks-screen {
+  display: none;
+  animation: fadeUp 0.5s ease;
+}
+.bookmarks-screen.active { display: block; }
+
+.bookmarks-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+}
+
+.bookmarks-empty span { font-size: 48px; display: block; margin-bottom: 12px; }
+
+/* Responsive */
+@media (min-width: 600px) {
+  .app-header { padding: 24px 24px 28px; }
+  .phase-strip { padding: 14px 24px; }
+  .day-selector-area { padding: 16px 24px; }
+  .main-content { padding: 0 24px 120px; }
+  .day-grid { grid-template-columns: repeat(15, 1fr); }
+}
+
+@media (min-width: 900px) {
+  body { max-width: 480px; margin: 0 auto; box-shadow: var(--shadow-lg); min-height: 100vh; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+  <div class="header-top">
+    <div class="app-logo">Odia Sikho <span>60 Din Plan</span></div>
+    <div class="streak-badge" onclick="showBookmarks()">
+      <span class="fire">🔥</span>
+      <span id="streakCount">0</span> din streak
+    </div>
+  </div>
+  <div class="progress-wrapper">
+    <div class="progress-info">
+      <span id="progressLabel">Day 0 / 60</span>
+      <span id="progressPercent">0%</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+    </div>
+  </div>
+</header>
+
+<!-- PHASE STRIP -->
+<div class="phase-strip" id="phaseStrip"></div>
+
+<!-- DAY SELECTOR -->
+<div class="day-selector-area">
+  <button class="day-toggle-btn" onclick="toggleDayGrid()">
+    <span>📅 Sab Days Dekho</span>
+    <span class="arrow" id="dayArrow">▼</span>
+  </button>
+  <div class="day-grid" id="dayGrid"></div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+  <div id="welcomeScreen" class="welcome-screen">
+    <div class="welcome-emoji">🙏</div>
+    <h2>Namaskar! Odia Sikhte hain!</h2>
+    <p>60 din mein Odia bolna seekho — ekdum desi style mein, bina kisi script ke, sirf bolke aur sunke!</p>
+    <button class="start-btn" onclick="startDay(1)">
+      ▶️ Day 1 Shuru Karo
+    </button>
+  </div>
+
+  <div id="lessonScreen" class="lesson-screen"></div>
+  <div id="bookmarksScreen" class="bookmarks-screen"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav" id="bottomNav" style="display: none;">
+  <button class="nav-btn btn-prev" onclick="prevDay()">← Pichla</button>
+  <button class="nav-btn btn-next" id="nextBtn" onclick="nextDay()">Agla →</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- REPEAT MODAL -->
+<div class="modal-overlay" id="repeatModal">
+  <div class="modal-box">
+    <div class="modal-emoji">🗣️</div>
+    <h3 id="repeatPhrase"></h3>
+    <p id="repeatMeaning"></p>
+    <button class="modal-close-btn" onclick="closeRepeatModal()">Samajh gaya! 👍</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// DATA STORE — All 60 days content
+// ═══════════════════════════════════════
+const PHASES = [
+  { id: 1, name: "Survival Basics", days: "1–10", emoji: "🆘" },
+  { id: 2, name: "Daily Life", days: "11–20", emoji: "🏠" },
+  { id: 3, name: "People & Emotions", days: "21–30", emoji: "❤️" },
+  { id: 4, name: "Situations", days: "31–40", emoji: "🎯" },
+  { id: 5, name: "Conversations", days: "41–50", emoji: "💬" },
+  { id: 6, name: "Fluency Boosters", days: "51–60", emoji: "🚀" }
+];
+
+function getPhase(day) {
+  return Math.ceil(day / 10);
+}
+
+// ─── Full 60-day content ───
+const LESSONS = {
+  1: {
+    focus: "Aaj se shuru! Basic greetings aur apna intro dena seekho Odia mein.",
+    phrases: [
+      { odia: "Namaskar", hindi: "Namaste / Hello", use: "Kisi se bhi milte waqt" },
+      { odia: "Mu mo naama Tarun", hindi: "Mera naam Tarun hai", use: "Apna naam batane ke liye" },
+      { odia: "Kemiti achhi?", hindi: "Kaise ho?", use: "Haal-chaal poochne ke liye" },
+      { odia: "Mu bhala achhi", hindi: "Main theek hoon", use: "Jawab dene ke liye" },
+      { odia: "Tume kemiti achha?", hindi: "Tum kaise ho?", use: "Informal mein poochna" },
+      { odia: "Haan", hindi: "Haan / Yes", use: "Agree karna" },
+      { odia: "Naa", hindi: "Nahi / No", use: "Disagree karna" },
+      { odia: "Dhanyabaad", hindi: "Dhanyavaad / Thank you", use: "Shukriya bolne ke liye" },
+      { odia: "Maaf karibu", hindi: "Maaf kijiye", use: "Sorry ya excuse me" },
+      { odia: "Aau bheti heba", hindi: "Phir milenge", use: "Bye bolte waqt" },
+      { odia: "Subha prakash", hindi: "Good morning", use: "Subah milne par" },
+      { odia: "Shubha ratri", hindi: "Good night", use: "Raat ko" },
+      { odia: "Mu bujhi paruni", hindi: "Mujhe samajh nahi aaya", use: "Jab kuch samajh na aaye" },
+      { odia: "Aaste bolu", hindi: "Dheere bolo", use: "Jab koi fast bole" },
+      { odia: "Kana?", hindi: "Kya?", use: "Jab kuch sunai na de" }
+    ],
+    conversation: [
+      { speaker: "Ravi", side: "left", odia: "Namaskar! Kemiti achhi?", meaning: "Namaste! Kaise ho?" },
+      { speaker: "Tum", side: "right", odia: "Namaskar! Mu bhala achhi. Tume?", meaning: "Namaste! Main theek hoon. Tum?" },
+      { speaker: "Ravi", side: "left", odia: "Mu bi bhala. Tuma naama kana?", meaning: "Main bhi theek. Tumhara naam kya hai?" },
+      { speaker: "Tum", side: "right", odia: "Mu mo naama Tarun. Dhanyabaad!", meaning: "Mera naam Tarun hai. Shukriya!" },
+      { speaker: "Ravi", side: "left", odia: "Aau bheti heba!", meaning: "Phir milenge!" }
+    ],
+    proTip: "Odia mein 'Mu' matlab 'Main' hota hai — ye sabse zyada use hone wala word hai. Isko yaad kar lo pehle!",
+    revision: [
+      { odia: "Namaskar", hindi: "Hello / Namaste" },
+      { odia: "Dhanyabaad", hindi: "Thank you" },
+      { odia: "Kemiti achhi?", hindi: "Kaise ho?" }
+    ]
+  },
+  2: {
+    focus: "Numbers seekho! 1 se 10 tak Odia mein count karna aur basic counting use.",
+    phrases: [
+      { odia: "Eka", hindi: "1 – Ek", use: "Counting" },
+      { odia: "Dui", hindi: "2 – Do", use: "Counting" },
+      { odia: "Tini", hindi: "3 – Teen", use: "Counting" },
+      { odia: "Chaari", hindi: "4 – Chaar", use: "Counting" },
+      { odia: "Paancha", hindi: "5 – Paanch", use: "Counting" },
+      { odia: "Chha", hindi: "6 – Chhe", use: "Counting" },
+      { odia: "Saata", hindi: "7 – Saat", use: "Counting" },
+      { odia: "Aatha", hindi: "8 – Aath", use: "Counting" },
+      { odia: "Naa", hindi: "9 – Nau", use: "Counting" },
+      { odia: "Dasa", hindi: "10 – Das", use: "Counting" },
+      { odia: "Kete?", hindi: "Kitna / Kitne?", use: "Price ya quantity poochne ke liye" },
+      { odia: "Eka ta diya", hindi: "Ek de do", use: "Dukaan mein kuch maangne ke liye" },
+      { odia: "Dui ta chaahein", hindi: "Do chahiye", use: "Shopping mein" },
+      { odia: "Iye kete?", hindi: "Ye kitne ka hai?", use: "Price poochna" }
+    ],
+    conversation: [
+      { speaker: "Tum", side: "right", odia: "Bhaiya, iye kete?", meaning: "Bhaiya, ye kitne ka hai?" },
+      { speaker: "Dukandaar", side: "left", odia: "Paancha tanka", meaning: "5 rupaye" },
+      { speaker: "Tum", side: "right", odia: "Dui ta diya", meaning: "Do de do" },
+      { speaker: "Dukandaar", side: "left", odia: "Haan, niya", meaning: "Haan, lo" }
+    ],
+    proTip: "Odia numbers Hindi se bahut milte hain! 'Eka-Dui-Tini' yaad karo — baaki automatically aayega. 'Ta' ka matlab 'piece/item' hota hai — 'Dui ta' = 'Do item'.",
+    revision: [
+      { odia: "Mu mo naama...", hindi: "Mera naam... hai" },
+      { odia: "Mu bhala achhi", hindi: "Main theek hoon" },
+      { odia: "Aaste bolu", hindi: "Dheere bolo" }
+    ]
+  },
+  3: {
+    focus: "Basic sawaal poochna seekho — Kya, Kahan, Kaun, Kab Odia mein.",
+    phrases: [
+      { odia: "Kana?", hindi: "Kya?", use: "General sawaal" },
+      { odia: "Kuaade?", hindi: "Kahan?", use: "Jagah poochna" },
+      { odia: "Kie?", hindi: "Kaun?", use: "Person poochna" },
+      { odia: "Kebe?", hindi: "Kab?", use: "Time poochna" },
+      { odia: "Kahinki?", hindi: "Kyun?", use: "Reason poochna" },
+      { odia: "Kemiti?", hindi: "Kaise?", use: "Tarika poochna" },
+      { odia: "Iye kana?", hindi: "Ye kya hai?", use: "Cheez poochna" },
+      { odia: "Tume kuaade jauchha?", hindi: "Tum kahan ja rahe ho?", use: "Direction poochna" },
+      { odia: "Se kie?", hindi: "Wo kaun hai?", use: "Kisi ke baare mein poochna" },
+      { odia: "Kebe aasiba?", hindi: "Kab aaoge?", use: "Time confirm karna" },
+      { odia: "Kahinki gala?", hindi: "Kyun gaye?", use: "Reason jaanna" },
+      { odia: "Kemiti kariba?", hindi: "Kaise karein?", use: "Help maangna" }
+    ],
+    conversation: [
+      { speaker: "Tum", side: "right", odia: "Bhaiya, station kuaade?", meaning: "Bhaiya, station kahan hai?" },
+      { speaker: "Local", side: "left", odia: "Sidha jaao, baama pakha", meaning: "Seedha jao, left side" },
+      { speaker: "Tum", side: "right", odia: "Kete door?", meaning: "Kitna door?" },
+      { speaker: "Local", side: "left", odia: "Paancha minute", meaning: "5 minute" }
+    ],
+    proTip: "'Kuaade' (Kahan) sabse kaam ka word hai travel mein. Isko variations ke saath practice karo: 'Hotel kuaade?', 'Bus stop kuaade?'",
+    revision: [
+      { odia: "Eka", hindi: "Ek (1)" },
+      { odia: "Kete?", hindi: "Kitna?" },
+      { odia: "Dhanyabaad", hindi: "Thank you" }
+    ]
+  },
+  4: {
+    focus: "Directions aur travel ke basic words — Left, Right, Yahan, Wahan.",
+    phrases: [
+      { odia: "Baama pakha", hindi: "Left / Baayein", use: "Direction batana" },
+      { odia: "Daahin pakha", hindi: "Right / Daayein", use: "Direction batana" },
+      { odia: "Sidha jaao", hindi: "Seedha jao", use: "Straight bolna" },
+      { odia: "Ethikin", hindi: "Yahan", use: "This place" },
+      { odia: "Sethikin", hindi: "Wahan", use: "That place" },
+      { odia: "Nikata", hindi: "Nazdeek / Paas", use: "Near bolna" },
+      { odia: "Doora", hindi: "Door", use: "Far bolna" },
+      { odia: "Ruku", hindi: "Ruko / Stop", use: "Auto/cab mein" },
+      { odia: "Chala", hindi: "Chalo", use: "Let's go" },
+      { odia: "Mu jauchi", hindi: "Main ja raha hoon", use: "Batana ki tum ja rahe ho" },
+      { odia: "Ethare rahu", hindi: "Yahan ruko", use: "Auto driver ko bolna" },
+      { odia: "Aagaku jaao", hindi: "Aage jao", use: "Forward direction" }
+    ],
+    conversation: [
+      { speaker: "Tum", side: "right", odia: "Auto bhaiya, station jaiba", meaning: "Auto bhaiya, station jaana hai" },
+      { speaker: "Auto", side: "left", odia: "Haan basu, chala", meaning: "Haan baitho, chalo" },
+      { speaker: "Tum", side: "right", odia: "Ethare rahu! Dhanyabaad!", meaning: "Yahan ruko! Thank you!" }
+    ],
+    proTip: "'Pakha' ka matlab 'side/taraf' hota hai. Baama pakha = Left side, Daahin pakha = Right side. Auto aur rickshaw mein bahut kaam aayega!",
+    revision: [
+      { odia: "Kuaade?", hindi: "Kahan?" },
+      { odia: "Kemiti?", hindi: "Kaise?" },
+      { odia: "Dui ta chaahein", hindi: "Do chahiye" }
+    ]
+  },
+  5: {
+    focus: "Khaana-peena! Food ordering aur basic food words Odia mein.",
+    phrases: [
+      { odia: "Mu bhooka", hindi: "Mujhe bhook lagi hai", use: "Hungry bolna" },
+      { odia: "Mu trishaa", hindi: "Mujhe pyaas lagi hai", use: "Thirsty bolna" },
+      { odia: "Bhat", hindi: "Chawal / Rice", use: "Odia ka main food" },
+      { odia: "Daalma", hindi: "Dal", use: "Dal order karna" },
+      { odia: "Maachha", hindi: "Machli / Fish", use: "Odia favourite!" },
+      { odia: "Paani", hindi: "Paani / Water", use: "Paani maangna" },
+      { odia: "Chaa", hindi: "Chai / Tea", use: "Chai order" },
+      { odia: "Meetha", hindi: "Meetha / Sweet", use: "Dessert" },
+      { odia: "Jhaal", hindi: "Teekha / Spicy", use: "Spice level batana" },
+      { odia: "Khaiba ki?", hindi: "Khaaoge kya?", use: "Invite karna" },
+      { odia: "Bahut swadist!", hindi: "Bahut tasty!", use: "Tareef karna" },
+      { odia: "Aau eka ta", hindi: "Aur ek do", use: "Extra maangna" },
+      { odia: "Bill diya", hindi: "Bill de do", use: "Restaurant mein" }
+    ],
+    conversation: [
+      { speaker: "Waiter", side: "left", odia: "Kana khaibe?", meaning: "Kya khaoge?" },
+      { speaker: "Tum", side: "right", odia: "Bhat, daalma, aau maachha diya", meaning: "Chawal, dal, aur machli de do" },
+      { speaker: "Waiter", side: "left", odia: "Jhaal kete?", meaning: "Teekha kitna?" },
+      { speaker: "Tum", side: "right", odia: "Kama jhaal. Dhanyabaad!", meaning: "Kam teekha. Thank you!" }
+    ],
+    proTip: "Odisha mein 'Bhat-Daalma-Maachha' basic meal hai — jaise Hindi belt mein dal-roti. Fish yahan staple hai, toh 'Maachha' word bahut sunoge!",
+    revision: [
+      { odia: "Baama pakha", hindi: "Left side" },
+      { odia: "Chala", hindi: "Chalo" },
+      { odia: "Namaskar", hindi: "Hello" }
+    ]
+  },
+  6: {
+    focus: "Time aur din batana seekho — Aaj, Kal, Subah, Shaam Odia mein.",
+    phrases: [
+      { odia: "Aaji", hindi: "Aaj / Today", use: "Current day" },
+      { odia: "Kaali", hindi: "Kal (both yesterday & tomorrow)", use: "Context se samjho" },
+      { odia: "Sakalu", hindi: "Subah / Morning", use: "Morning time" },
+      { odia: "Apahna", hindi: "Dopahar / Afternoon", use: "Afternoon" },
+      { odia: "Sandhya", hindi: "Shaam / Evening", use: "Evening time" },
+      { odia: "Raati", hindi: "Raat / Night", use: "Night time" },
+      { odia: "Bele kete?", hindi: "Time kya hua?", use: "Time poochna" },
+      { odia: "Aaji kana plan?", hindi: "Aaj kya plan hai?", use: "Plan poochna" },
+      { odia: "Kaali aasiba", hindi: "Kal aaunga", use: "Tomorrow plan" },
+      { odia: "Ebe", hindi: "Abhi / Now", use: "Right now" },
+      { odia: "Pare", hindi: "Baad mein / Later", use: "Later bolna" },
+      { odia: "Jaldi", hindi: "Jaldi", use: "Quick/hurry" }
+    ],
+    conversation: [
+      { speaker: "Dost", side: "left", odia: "Kaali kana kariba?", meaning: "Kal kya karoge?" },
+      { speaker: "Tum", side: "right", odia: "Sakalu mu market jauchi", meaning: "Subah main market ja raha hoon" },
+      { speaker: "Dost", side: "left", odia: "Sandhya bheti heba!", meaning: "Shaam ko milte hain!" },
+      { speaker: "Tum", side: "right", odia: "Haan, thik achhi!", meaning: "Haan, theek hai!" }
+    ],
+    proTip: "'Kaali' ek interesting word hai — ye 'kal' ke liye use hota hai, chahe yesterday ho ya tomorrow. Matlab context se samajhna padega — bilkul Hindi 'kal' jaisa!",
+    revision: [
+      { odia: "Mu bhooka", hindi: "Mujhe bhook lagi" },
+      { odia: "Bhat diya", hindi: "Chawal de do" },
+      { odia: "Kana?", hindi: "Kya?" }
+    ]
+  },
+  7: {
+    focus: "Polite requests aur maangna seekho — Please, Chahiye, De do Odia mein.",
+    phrases: [
+      { odia: "Dayakari", hindi: "Please / Kripaya", use: "Polite request" },
+      { odia: "Mu chaahein", hindi: "Mujhe chahiye", use: "Want something" },
+      { odia: "Eka glass paani diya", hindi: "Ek glass paani de do", use: "Paani maangna" },
+      { odia: "Sahajya karu", hindi: "Help karo / Help kijiye", use: "Help maangna" },
+      { odia: "Iye mu ku diya", hindi: "Ye mujhe de do", use: "Kuch lena" },
+      { odia: "Aau thare bolu", hindi: "Ek baar aur bolo", use: "Repeat karna" },
+      { odia: "Mu ku bujhaao", hindi: "Mujhe samjhaao", use: "Explanation maangna" },
+      { odia: "Thoda wait karu", hindi: "Thoda wait karo", use: "Patience" },
+      { odia: "Achha, thik achhi", hindi: "Achha, theek hai", use: "Agreement" },
+      { odia: "Naa, laguni", hindi: "Nahi, nahi chahiye", use: "Decline karna" },
+      { odia: "Bahut dhanyabaad", hindi: "Bahut shukriya", use: "Extra thanks" },
+      { odia: "Kichhi naa", hindi: "Kuch nahi / No problem", use: "Welcome bolna" }
+    ],
+    conversation: [
+      { speaker: "Tum", side: "right", odia: "Dayakari, eka glass paani diya", meaning: "Please, ek glass paani de do" },
+      { speaker: "Host", side: "left", odia: "Haan, niya. Chaa bi khaibe?", meaning: "Haan, lo. Chai bhi pioge?" },
+      { speaker: "Tum", side: "right", odia: "Haan, bahut dhanyabaad!", meaning: "Haan, bahut shukriya!" },
+      { speaker: "Host", side: "left", odia: "Kichhi naa!", meaning: "Koi baat nahi!" }
+    ],
+    proTip: "'Dayakari' (Please) use karo toh log bahut khush hote hain. Odia log bahut polite hain aur politeness ki bahut respect karte hain!",
+    revision: [
+      { odia: "Ebe", hindi: "Abhi / Now" },
+      { odia: "Aaji", hindi: "Aaj / Today" },
+      { odia: "Mu jauchi", hindi: "Main ja raha hoon" }
+    ]
+  },
+  8: {
+    focus: "Family members ke naam seekho — Maa, Baba, Bhai, Behen Odia mein.",
+    phrases: [
+      { odia: "Maa", hindi: "Maa / Mother", use: "Apni maa" },
+      { odia: "Bapa", hindi: "Papa / Father", use: "Apne papa" },
+      { odia: "Bhai", hindi: "Bhai / Brother", use: "Same as Hindi!" },
+      { odia: "Bhauji", hindi: "Bhabhi", use: "Bhai ki wife" },
+      { odia: "Nani", hindi: "Behen / Sister", use: "Apni behen" },
+      { odia: "Bou", hindi: "Biwi / Wife", use: "Apni wife" },
+      { odia: "Swami", hindi: "Pati / Husband", use: "Apna husband" },
+      { odia: "Pila", hindi: "Baccha / Child", use: "Bacche ke liye" },
+      { odia: "Bada bapa", hindi: "Taaoo / Uncle (elder)", use: "Papa ka bada bhai" },
+      { odia: "Kaaka", hindi: "Chacha / Uncle", use: "Papa ka chhota bhai" },
+      { odia: "Tuma paribaar kemiti?", hindi: "Tumhara parivaar kaisa hai?", use: "Family ke baare mein poochna" },
+      { odia: "Mu ghara jauchi", hindi: "Main ghar ja raha hoon", use: "Going home" }
+    ],
+    conversation: [
+      { speaker: "Dost", side: "left", odia: "Tuma paribaar kemiti achhi?", meaning: "Tumhara parivaar kaisa hai?" },
+      { speaker: "Tum", side: "right", odia: "Sabuu bhala achhi! Maa, Bapa sabuu thik", meaning: "Sab theek hain! Maa Papa sab theek" },
+      { speaker: "Dost", side: "left", odia: "Bahut bhala! Tuma nani bi achhi?", meaning: "Bahut achha! Tumhari behen bhi hai?" },
+      { speaker: "Tum", side: "right", odia: "Haan, eka nani achhi", meaning: "Haan, ek behen hai" }
+    ],
+    proTip: "'Nani' matlab behen hota hai — confuse mat hona Hindi waali 'Naani' (grandmother) se! Odia family words Hindi se kaafi milte hain.",
+    revision: [
+      { odia: "Dayakari", hindi: "Please" },
+      { odia: "Sahajya karu", hindi: "Help karo" },
+      { odia: "Kaali", hindi: "Kal" }
+    ]
+  },
+  9: {
+    focus: "Shopping essentials — Daam poochna, bargain karna, cheezein lena Odia mein.",
+    phrases: [
+      { odia: "Iye kete daama?", hindi: "Iske kitne daam hain?", use: "Price poochna" },
+      { odia: "Bahut mahanga", hindi: "Bahut mehenga hai", use: "Bargain start karna" },
+      { odia: "Kama karu", hindi: "Kam karo", use: "Price girwana" },
+      { odia: "Mu kiniba", hindi: "Main khareedoonga", use: "Buy karna" },
+      { odia: "Mu dekhiba", hindi: "Main dekhoonga", use: "Sirf dekhna" },
+      { odia: "Aau kana achhi?", hindi: "Aur kya hai?", use: "Options poochna" },
+      { odia: "Iye bhala achhi", hindi: "Ye achha hai", use: "Pasand aane par" },
+      { odia: "Iye bhala naahiin", hindi: "Ye achha nahi hai", use: "Pasand na aane par" },
+      { odia: "Size bada", hindi: "Bada size", use: "Size maangna" },
+      { odia: "Size sana", hindi: "Chhota size", use: "Chhota size" },
+      { odia: "Bill diya", hindi: "Bill de do", use: "Payment time" },
+      { odia: "Cash naa card?", hindi: "Cash ya card?", use: "Payment mode" }
+    ],
+    conversation: [
+      { speaker: "Tum", side: "right", odia: "Bhaiya, iye shirt kete daama?", meaning: "Bhaiya, ye shirt kitne ki hai?" },
+      { speaker: "Dukan", side: "left", odia: "Paanch sau tanka", meaning: "500 rupaye" },
+      { speaker: "Tum", side: "right", odia: "Bahut mahanga! Tini sau?", meaning: "Bahut mehenga! 300?" },
+      { speaker: "Dukan", side: "left", odia: "Chaari sau, last price", meaning: "400, last price" },
+      { speaker: "Tum", side: "right", odia: "Thik achhi, mu kiniba!", meaning: "Theek hai, main le lunga!" }
+    ],
+    proTip: "'Tanka' = Rupaye. Odia mein paisa/money ke liye 'tanka' use hota hai. Dukaan mein 'Kete tanka?' pooch lo — sab samajh jaayenge!",
+    revision: [
+      { odia: "Bhat, daalma, maachha", hindi: "Chawal, dal, machli" },
+      { odia: "Mu bujhi paruni", hindi: "Samajh nahi aaya" },
+      { odia: "Mu ghara jauchi", hindi: "Main ghar ja raha hoon" }
+    ]
+  },
+  10: {
+    focus: "Phase 1 Revision Day! Pehle 9 din ka sab kuch revise karo.",
+    phrases: [
+      { odia: "Namaskar, kemiti achhi?", hindi: "Hello, kaise ho?", use: "Greeting combo" },
+      { odia: "Mu bhala achhi, dhanyabaad", hindi: "Main theek hoon, shukriya", use: "Reply combo" },
+      { odia: "Iye kete daama?", hindi: "Ye kitne ka hai?", use: "Shopping" },
+      { odia: "Station kuaade?", hindi: "Station kahan hai?", use: "Directions" },
+      { odia: "Bhat, daalma diya", hindi: "Chawal dal de do", use: "Food order" },
+      { odia: "Mu bhooka, kana khaiba?", hindi: "Bhook lagi, kya khayein?", use: "Hungry hona" },
+      { odia: "Aaji sakalu mu jauchi", hindi: "Aaj subah main ja raha hoon", use: "Time + action" },
+      { odia: "Dayakari, sahajya karu", hindi: "Please, help karo", use: "Polite request" },
+      { odia: "Maa, Bapa bhala achhi", hindi: "Maa Papa theek hain", use: "Family talk" },
+      { odia: "Mu kiniba, bill diya", hindi: "Main le lunga, bill do", use: "Shopping close" },
+      { odia: "Kaali bheti heba!", hindi: "Kal milte hain!", use: "Goodbye" },
+      { odia: "Bahut swadist!", hindi: "Bahut tasty!", use: "Food praise" }
+    ],
+    conversation: [
+      { speaker: "Tum", side: "right", odia: "Namaskar! Aaji kana plan?", meaning: "Hello! Aaj kya plan hai?" },
+      { speaker: "Dost", side: "left", odia: "Chala, market jaiba!", meaning: "Chalo, market chalte hain!" },
+      { speaker: "Tum", side: "right", odia: "Bahut bhala! Mu tayaar!", meaning: "Bahut achha! Main tayaar hoon!" },
+      { speaker: "Dost", side: "left", odia: "Pare bhat khaiba!", meaning: "Baad mein chawal khayenge!" }
+    ],
+    proTip: "Phase 1 complete hone waala hai — tum ab basic greetings, numbers, directions, food, time, family, aur shopping sab bol sakte ho! Bahut badiya progress! 🎉",
+    revision: [
+      { odia: "Kemiti achhi?", hindi: "Kaise ho?" },
+      { odia: "Chala", hindi: "Chalo" },
+      { odia: "Kichhi naa", hindi: "Koi baat nahi" }
+    ]
+  }
+};
+
+// Generate remaining days (11-60) dynamically with proper content
+function generateDay(dayNum) {
+  const templates = {
+    11: { focus: "Ghar ke andar ki cheezein — Room, Kitchen, Bathroom Odia mein.", phrases: [
+      {odia:"Ghara",hindi:"Ghar / Home",use:"Apna ghar"},{odia:"Kothari",hindi:"Kamra / Room",use:"Room batana"},{odia:"Ranna ghara",hindi:"Kitchen",use:"Kitchen ke liye"},{odia:"Snaana ghara",hindi:"Bathroom",use:"Bathroom poochna"},{odia:"Basa",hindi:"Baitho / Sit",use:"Kisi ko baithane ke liye"},{odia:"Chuki",hindi:"Kursi / Chair",use:"Furniture"},{odia:"Khata",hindi:"Bed / Bistar",use:"Sone ka bed"},{odia:"Daara",hindi:"Darwaza / Door",use:"Door"},{odia:"Jhirki",hindi:"Khidki / Window",use:"Window"},{odia:"Batii",hindi:"Light / Bulb",use:"Light on/off"},{odia:"Pankha",hindi:"Pankha / Fan",use:"Fan ke liye"},{odia:"Batii jalao",hindi:"Light jalao",use:"Light on karna"}
+    ], conversation: [{speaker:"Maa",side:"left",odia:"Kothari saafa kara!",meaning:"Kamra saaf karo!"},{speaker:"Tum",side:"right",odia:"Haan Maa, ebe karuchi!",meaning:"Haan Maa, abhi kar raha hoon!"},{speaker:"Maa",side:"left",odia:"Jhirki kholaa, hawa aasiba",meaning:"Khidki kholo, hawa aayegi"}], proTip: "Odia mein 'Ghara' (Ghar) bahut emotional word hai. 'Ghara ku miss karuchi' = 'Ghar ko miss kar raha hoon' — ye line har Odia samjhega!", revision: [{odia:"Mu kiniba",hindi:"Main khareedoonga"},{odia:"Bahut mahanga",hindi:"Bahut mehenga"},{odia:"Aaji",hindi:"Aaj"}] },
+    12: { focus: "Kapde aur rang — Colors aur dressing Odia mein.", phrases: [
+      {odia:"Laal",hindi:"Laal / Red",use:"Red color"},{odia:"Neela",hindi:"Neela / Blue",use:"Blue color"},{odia:"Haldia",hindi:"Peela / Yellow",use:"Yellow"},{odia:"Sabu",hindi:"Safed / White",use:"White"},{odia:"Kalaa",hindi:"Kaala / Black",use:"Black"},{odia:"Sabuj",hindi:"Hara / Green",use:"Green"},{odia:"Lugaa",hindi:"Kapda / Cloth",use:"Kapde ke liye"},{odia:"Shirt",hindi:"Shirt",use:"Same hai!"},{odia:"Pant",hindi:"Pant",use:"Same hai!"},{odia:"Saree",hindi:"Saree",use:"Traditional dress"},{odia:"Iye laal lugaa dekhao",hindi:"Ye laal kapda dikhao",use:"Shopping mein"},{odia:"Iye rang bhala!",hindi:"Ye rang achha hai!",use:"Color pasand aane par"}
+    ], conversation: [{speaker:"Tum",side:"right",odia:"Iye neela shirt dekhao",meaning:"Ye blue shirt dikhao"},{speaker:"Dukan",side:"left",odia:"Iye niya, bahut sundara!",meaning:"Ye lo, bahut sundar!"},{speaker:"Tum",side:"right",odia:"Sabuj bi achhi?",meaning:"Green bhi hai?"},{speaker:"Dukan",side:"left",odia:"Haan, ethare achhi",meaning:"Haan, yahan hai"}], proTip: "Odia colors Hindi se milte hain! Laal, Neela, Kalaa — almost same sound. Bas 'Sabuj' (Green) aur 'Haldia' (Yellow) naye hain.", revision: [{odia:"Ghara",hindi:"Ghar"},{odia:"Ranna ghara",hindi:"Kitchen"},{odia:"Ebe",hindi:"Abhi"}] },
+    13: { focus: "Weather aur mausam ki baat — Garmi, Sardi, Baarish Odia mein.", phrases: [
+      {odia:"Garma",hindi:"Garmi / Hot",use:"Summer mein"},{odia:"Thanda",hindi:"Thanda / Cold",use:"Winter mein"},{odia:"Barsha",hindi:"Baarish / Rain",use:"Rainy season"},{odia:"Dhup",hindi:"Dhoop / Sunshine",use:"Sunny day"},{odia:"Baatya",hindi:"Toofan / Storm",use:"Stormy weather"},{odia:"Aaji bahut garma",hindi:"Aaj bahut garmi hai",use:"Weather complaint"},{odia:"Barsha paduchi",hindi:"Baarish ho rahi hai",use:"Barish describe karna"},{odia:"Chhata niya",hindi:"Chhatri le lo",use:"Umbrella reminder"},{odia:"Bahut thanda aaji",hindi:"Aaj bahut thanda hai",use:"Cold day"},{odia:"Akaash bahut sundara",hindi:"Aasmaan bahut sundar hai",use:"Sky admire karna"},{odia:"Megha aasuchi",hindi:"Baadal aa rahe hain",use:"Clouds coming"}
+    ], conversation: [{speaker:"Tum",side:"right",odia:"Aaji bahut garma!",meaning:"Aaj bahut garmi hai!"},{speaker:"Dost",side:"left",odia:"Haan! Chaa pibu?",meaning:"Haan! Chai piyoge?"},{speaker:"Tum",side:"right",odia:"Dekhaa, megha aasuchi! Barsha heba!",meaning:"Dekho, baadal aa rahe! Baarish hogi!"},{speaker:"Dost",side:"left",odia:"Chhata niya, chala!",meaning:"Chhatri le, chalo!"}], proTip: "Odisha mein monsoon bahut strong hota hai. 'Barsha paduchi' (baarish ho rahi hai) June-September mein bahut use hoga!", revision: [{odia:"Laal",hindi:"Red"},{odia:"Lugaa",hindi:"Kapda"},{odia:"Batii jalao",hindi:"Light on karo"}] },
+    14: { focus: "Transport aur travel — Bus, Train, Auto sab Odia mein.", phrases: [
+      {odia:"Bus",hindi:"Bus",use:"Same word!"},{odia:"Train / Rel gaadi",hindi:"Train",use:"Train ke liye"},{odia:"Auto",hindi:"Auto rickshaw",use:"Local travel"},{odia:"Taxi",hindi:"Taxi",use:"Cab ke liye"},{odia:"Cycle",hindi:"Cycle",use:"Cycling"},{odia:"Gaadi",hindi:"Gaadi / Vehicle",use:"Any vehicle"},{odia:"Ticket kete?",hindi:"Ticket kitne ka?",use:"Ticket price"},{odia:"Iye bus kuaade jauchi?",hindi:"Ye bus kahan ja rahi hai?",use:"Bus route poochna"},{odia:"Mu Bhubaneswar jaiba",hindi:"Mujhe Bhubaneswar jaana hai",use:"Destination batana"},{odia:"Kebe pahanchiba?",hindi:"Kab pahunchenge?",use:"Arrival time"},{odia:"Station ki naam kana?",hindi:"Station ka naam kya hai?",use:"Stop poochna"},{odia:"Ethare rahu, mu jaambi",hindi:"Yahan ruko, main utrunga",use:"Bus mein utarna"}
+    ], conversation: [{speaker:"Tum",side:"right",odia:"Bhaiya, iye bus Cuttack jauchi?",meaning:"Bhaiya, ye bus Cuttack ja rahi hai?"},{speaker:"Conductor",side:"left",odia:"Haan, basu. Ticket kete ta?",meaning:"Haan, baitho. Kitni ticket?"},{speaker:"Tum",side:"right",odia:"Eka ta. Kete daama?",meaning:"Ek. Kitne paise?"},{speaker:"Conductor",side:"left",odia:"Paanch tanka",meaning:"30 rupaye"}], proTip: "'Jaiba' = Jaana hai, 'Jauchi' = Ja raha hai. Ye dono travel mein sabse useful verbs hain. 'Mu Puri jaiba' = 'Mujhe Puri jaana hai'.", revision: [{odia:"Barsha paduchi",hindi:"Baarish ho rahi hai"},{odia:"Chhata",hindi:"Chhatri"},{odia:"Neela",hindi:"Blue"}] },
+    15: { focus: "Body parts aur health basics — Dard, Doctor, Dawai Odia mein.", phrases: [
+      {odia:"Maatha",hindi:"Sir / Head",use:"Head ke liye"},{odia:"Aakhi",hindi:"Aankh / Eye",use:"Eyes"},{odia:"Kaana",hindi:"Kaan / Ear",use:"Ears"},{odia:"Naaka",hindi:"Naak / Nose",use:"Nose"},{odia:"Haata",hindi:"Haath / Hand",use:"Hands"},{odia:"Gooda",hindi:"Pair / Leg",use:"Legs"},{odia:"Peta",hindi:"Pet / Stomach",use:"Stomach"},{odia:"Mu asusthu",hindi:"Meri tabiyat kharab hai",use:"Sick bolna"},{odia:"Maatha dhuruchi",hindi:"Sir dard ho raha hai",use:"Headache batana"},{odia:"Doctor kuaade?",hindi:"Doctor kahan hai?",use:"Doctor poochna"},{odia:"Ausadha diya",hindi:"Dawai de do",use:"Medicine maangna"},{odia:"Mu ku hospital niya jao",hindi:"Mujhe hospital le chalo",use:"Emergency"}
+    ], conversation: [{speaker:"Tum",side:"right",odia:"Mu asusthu, maatha dhuruchi",meaning:"Meri tabiyat kharab hai, sir dard hai"},{speaker:"Dost",side:"left",odia:"Doctor paakhaku chala!",meaning:"Doctor ke paas chalo!"},{speaker:"Tum",side:"right",odia:"Hospital kuaade?",meaning:"Hospital kahan hai?"},{speaker:"Dost",side:"left",odia:"Nikata, chala auto re jaiba",meaning:"Paas mein hai, auto se chalte hain"}], proTip: "'Asusthu' = Beemar/Tabiyat kharab. Emergency mein 'Mu asusthu' bol do — sab samajh jaayenge aur help karenge!", revision: [{odia:"Bus kuaade jauchi?",hindi:"Bus kahan ja rahi?"},{odia:"Ticket kete?",hindi:"Ticket kitne ka?"},{odia:"Mu Bhubaneswar jaiba",hindi:"Mujhe Bhubaneswar jaana hai"}] },
+    16: { focus: "Jagah aur buildings — Market, School, Mandir, Hospital Odia mein.", phrases: [
+      {odia:"Bazaar",hindi:"Market / Bazaar",use:"Shopping jagah"},{odia:"Mandira",hindi:"Mandir / Temple",use:"Temple jaana"},{odia:"School",hindi:"School",use:"Same word"},{odia:"Hospital",hindi:"Hospital",use:"Same word"},{odia:"Bank",hindi:"Bank",use:"Same word"},{odia:"Hotel",hindi:"Hotel / Restaurant",use:"Khaana ya rehna"},{odia:"Dukaan",hindi:"Dukaan / Shop",use:"Any shop"},{odia:"Park",hindi:"Park / Garden",use:"Park jaana"},{odia:"Police station",hindi:"Thana",use:"Emergency"},{odia:"Mu mandira jauchi",hindi:"Main mandir ja raha hoon",use:"Temple visit"},{odia:"Bazaar kete doora?",hindi:"Market kitna door hai?",use:"Distance poochna"},{odia:"Nikata kana achhi?",hindi:"Nazdeek mein kya hai?",use:"Nearby places"}
+    ], conversation: [{speaker:"Tum",side:"right",odia:"Bhaiya, nikata mein ATM kuaade?",meaning:"Bhaiya, nazdeek ATM kahan hai?"},{speaker:"Local",side:"left",odia:"Bazaar bhitare, bank pakhare",meaning:"Market ke andar, bank ke paas"},{speaker:"Tum",side:"right",odia:"Kete doora?",meaning:"Kitna door?"},{speaker:"Local",side:"left",odia:"Dui minute paidal",meaning:"2 minute paidal"}], proTip: "'Pakhare' = Paas mein / Ke paas. Bahut useful word! 'School pakhare' = School ke paas, 'Mandira pakhare' = Mandir ke paas.", revision: [{odia:"Maatha dhuruchi",hindi:"Sir dard ho raha hai"},{odia:"Doctor kuaade?",hindi:"Doctor kahan hai?"},{odia:"Mu asusthu",hindi:"Main beemar hoon"}] },
+    17: { focus: "Daily routine batana — Uthna, Sona, Nhaana, Khaana sab Odia mein.", phrases: [
+      {odia:"Mu uthili",hindi:"Main uth gaya",use:"Subah uthna"},{odia:"Mu nhauchi",hindi:"Main nahaa raha hoon",use:"Nahana"},{odia:"Mu khauchi",hindi:"Main kha raha hoon",use:"Khana khana"},{odia:"Mu piuchi",hindi:"Main pi raha hoon",use:"Peena"},{odia:"Mu souchi",hindi:"Main so raha hoon",use:"Sona"},{odia:"Mu kaama karuchi",hindi:"Main kaam kar raha hoon",use:"Working"},{odia:"Mu paduchi",hindi:"Main padh raha hoon",use:"Studying"},{odia:"Mu ghumuchi",hindi:"Main ghoom raha hoon",use:"Walking/roaming"},{odia:"Sakalu uthili, nhaali, chaa pili",hindi:"Subah utha, nahaya, chai pi",use:"Routine batana"},{odia:"Raati mu jaldi souchi",hindi:"Raat ko main jaldi sota hoon",use:"Sleep routine"},{odia:"Apahna mu office jauchi",hindi:"Dopahar ko office jaata hoon",use:"Work routine"}
+    ], conversation: [{speaker:"Dost",side:"left",odia:"Tume sakalu kana karaa?",meaning:"Tum subah kya karte ho?"},{speaker:"Tum",side:"right",odia:"Mu sakalu uthuchi, nhauchi, chaa piuchi",meaning:"Main subah uthta hoon, nahata hoon, chai peeta hoon"},{speaker:"Dost",side:"left",odia:"Office kebe jaao?",meaning:"Office kab jaate ho?"},{speaker:"Tum",side:"right",odia:"Naa baje. Tume?",meaning:"9 baje. Tum?"}], proTip: "'—uchi' ending = main kar raha hoon. Jauchi = ja raha hoon, Khauchi = kha raha hoon, Piuchi = pi raha hoon. Ye pattern yaad kar lo — bahut kaam aayega!", revision: [{odia:"Mandira",hindi:"Mandir"},{odia:"Bazaar",hindi:"Market"},{odia:"Nikata",hindi:"Nazdeek"}] },
+    18: { focus: "Feelings express karo — Khushi, Gussa, Sad, Thaka Odia mein.", phrases: [
+      {odia:"Mu khushi",hindi:"Main khush hoon",use:"Happy bolna"},{odia:"Mu dukhi",hindi:"Main dukhi hoon",use:"Sad bolna"},{odia:"Mu raagi",hindi:"Mujhe gussa aa raha",use:"Angry"},{odia:"Mu thaki gali",hindi:"Main thak gaya",use:"Tired"},{odia:"Mu daruchu",hindi:"Mujhe dar lag raha",use:"Scared"},{odia:"Mu bore heigali",hindi:"Main bore ho gaya",use:"Bored"},{odia:"Bahut maja!",hindi:"Bahut maza!",use:"Fun ho raha"},{odia:"Mu tension re achhi",hindi:"Main tension mein hoon",use:"Stressed"},{odia:"Mu miss karuchi",hindi:"Main miss kar raha hoon",use:"Missing someone"},{odia:"Bahut bhala laguchi!",hindi:"Bahut achha lag raha hai!",use:"Feeling good"},{odia:"Kana hela?",hindi:"Kya hua?",use:"Kisi se poochna"}
+    ], conversation: [{speaker:"Dost",side:"left",odia:"Kana hela? Tume dukhi laaguchi!",meaning:"Kya hua? Tum dukhi lag rahe ho!"},{speaker:"Tum",side:"right",odia:"Kichhi naa, thodi thaki gali",meaning:"Kuch nahi, thoda thak gaya"},{speaker:"Dost",side:"left",odia:"Chala, chaa pibu! Mood bhala heba!",meaning:"Chal, chai peete hain! Mood achha hoga!"},{speaker:"Tum",side:"right",odia:"Haan, bahut bhala idea!",meaning:"Haan, bahut achha idea!"}], proTip: "'Bhala laguchi' = achha lag raha hai. Ye phrase positive emotion ke liye universal hai. 'Tume bhala laguchi' toh mat bolna galti se — iska matlab 'tum achhe lagte ho' ho jaata hai! 😄", revision: [{odia:"Mu khauchi",hindi:"Main kha raha hoon"},{odia:"Mu souchi",hindi:"Main so raha hoon"},{odia:"Sakalu",hindi:"Subah"}] },
+    19: { focus: "Phone aur technology waale words — Call, Message, Net Odia mein.", phrases: [
+      {odia:"Phone karaa",hindi:"Phone karo",use:"Call karna"},{odia:"Message pathaao",hindi:"Message bhejo",use:"Text bhejana"},{odia:"Net chaaluni",hindi:"Net nahi chal raha",use:"Internet problem"},{odia:"Charge karu",hindi:"Charge karo",use:"Phone charge"},{odia:"Photo tola",hindi:"Photo lo / khicho",use:"Selfie/photo"},{odia:"Video call kariba?",hindi:"Video call karein?",use:"VC suggest karna"},{odia:"WhatsApp re pathao",hindi:"WhatsApp pe bhejo",use:"WhatsApp use"},{odia:"Number diya",hindi:"Number de do",use:"Contact exchange"},{odia:"Signal naahiin",hindi:"Signal nahi hai",use:"Network issue"},{odia:"WiFi password kana?",hindi:"WiFi password kya hai?",use:"WiFi poochna"},{odia:"Mu online achhi",hindi:"Main online hoon",use:"Available batana"}
+    ], conversation: [{speaker:"Tum",side:"right",odia:"Bhai, tuma number diya",meaning:"Bhai, apna number de do"},{speaker:"Dost",side:"left",odia:"Haan, WhatsApp re pathao",meaning:"Haan, WhatsApp pe bhejo"},{speaker:"Tum",side:"right",odia:"Net bahut slow! Signal naahiin!",meaning:"Net bahut slow! Signal nahi hai!"},{speaker:"Dost",side:"left",odia:"WiFi connect karaa, password '12345'",meaning:"WiFi connect karo, password '12345'"}], proTip: "Tech words mostly same hain English mein! Bas surrounding Odia words seekho. 'Phone karaa', 'Message pathao', 'Photo tolaa' — bus itna kaafi hai!", revision: [{odia:"Mu khushi",hindi:"Main khush hoon"},{odia:"Mu thaki gali",hindi:"Main thak gaya"},{odia:"Kana hela?",hindi:"Kya hua?"}] },
+    20: { focus: "Phase 2 Revision! Daily life ke sabhi words ek saath practice karo.", phrases: [
+      {odia:"Mu ghara jauchi, bahut thaki gali",hindi:"Main ghar ja raha, bahut thak gaya",use:"Combo sentence"},{odia:"Ranna ghara mein chaa banaao",hindi:"Kitchen mein chai banao",use:"Home + food"},{odia:"Aaji barsha paduchi, chhata niya",hindi:"Aaj baarish ho rahi, chhatri le lo",use:"Weather + advice"},{odia:"Bazaar jaiba, laal lugaa kiniba",hindi:"Market jaana hai, laal kapda kharidna hai",use:"Shopping plan"},{odia:"Mu asusthu, doctor kuaade?",hindi:"Main beemar, doctor kahan?",use:"Health emergency"},{odia:"Sakalu uthili, nhaali, office gali",hindi:"Subah utha, nahaya, office gaya",use:"Full routine"},{odia:"Phone karaa, mu online achhi",hindi:"Phone karo, main online hoon",use:"Tech + availability"},{odia:"Bahut maja hela aaji!",hindi:"Aaj bahut maza aaya!",use:"Day end feeling"},{odia:"WiFi password kana? Net slow",hindi:"WiFi password kya? Net slow hai",use:"Tech problem"},{odia:"Mandira pakhare hotel achhi",hindi:"Mandir ke paas hotel hai",use:"Location + place"}
+    ], conversation: [{speaker:"Tum",side:"right",odia:"Aaji bahut bhala din hela!",meaning:"Aaj bahut achha din raha!"},{speaker:"Dost",side:"left",odia:"Haan! Kaali aau bheti heba!",meaning:"Haan! Kal phir milte hain!"},{speaker:"Tum",side:"right",odia:"Phone kariba raati ku",meaning:"Raat ko phone karoonga"},{speaker:"Dost",side:"left",odia:"Thik achhi! Shubha ratri!",meaning:"Theek hai! Good night!"}], proTip: "Phase 2 done! Ab tum ghar, khaana, kapde, mausam, health, jagah, routine, feelings, aur phone sab Odia mein bol sakte ho. Bahut badiya! 🎉🔥", revision: [{odia:"Phone karaa",hindi:"Phone karo"},{odia:"Mu miss karuchi",hindi:"Main miss kar raha"},{odia:"Sabuj",hindi:"Green"}] }
+  };
+
+  // Generate phases 3-6 dynamically
+  const phaseContent = {
+    // Phase 3: People & Emotions (21-30)
+    21: {focus:"Rishtedaar ko address karna — Uncle, Aunty, Dada, Didi Odia mein.",phrases:[{odia:"Bhauja",hindi:"Bhabhi",use:"Bhai ki wife"},{odia:"Mausi",hindi:"Mausi / Aunt",use:"Maa ki behen"},{odia:"Mama",hindi:"Mama / Uncle",use:"Maa ka bhai"},{odia:"Nani/Bou",hindi:"Dadi/Nani",use:"Grandmother"},{odia:"Buda bapa",hindi:"Dada/Nana",use:"Grandfather"},{odia:"Jhia",hindi:"Beti / Daughter",use:"Daughter"},{odia:"Pua",hindi:"Beta / Son",use:"Son"},{odia:"Saheli",hindi:"Saheli / Friend (F)",use:"Female friend"},{odia:"Bandhu",hindi:"Dost / Friend (M)",use:"Male friend"},{odia:"Padosi",hindi:"Padosi / Neighbour",use:"Neighbour"},{odia:"Tuma jhia bahut sundara",hindi:"Tumhari beti bahut sundar hai",use:"Compliment"},{odia:"Tuma pua kete barsha?",hindi:"Tumhara beta kitne saal ka?",use:"Age poochna"}],conversation:[{speaker:"Aunty",side:"left",odia:"Tuma maa kemiti achhi?",meaning:"Tumhari maa kaisi hain?"},{speaker:"Tum",side:"right",odia:"Maa bhala achhi, dhanyabaad Mausi!",meaning:"Maa theek hain, shukriya Mausi!"},{speaker:"Aunty",side:"left",odia:"Tuma bhai bi aasiba?",meaning:"Tumhara bhai bhi aayega?"},{speaker:"Tum",side:"right",odia:"Haan, kaali aasiba!",meaning:"Haan, kal aayega!"}],proTip:"Odia mein bade logon ko 'Tume' ki jagah 'Aapana' bolo — isse respect dikhti hai. Jaise Hindi mein 'Tum' vs 'Aap'!",revision:[{odia:"Mu ghara jauchi",hindi:"Main ghar ja raha"},{odia:"Bazaar",hindi:"Market"},{odia:"Mu online achhi",hindi:"Main online hoon"}]},
+    22:{focus:"Tareef aur compliments dena seekho Odia mein.",phrases:[{odia:"Bahut sundara!",hindi:"Bahut sundar!",use:"Beauty compliment"},{odia:"Tume bahut bhala",hindi:"Tum bahut achhe ho",use:"Character praise"},{odia:"Bahut bhala kaama!",hindi:"Bahut achha kaam!",use:"Work appreciation"},{odia:"Tuma lugaa bahut bhala",hindi:"Tumhare kapde bahut achhe hain",use:"Dress praise"},{odia:"Bahut smart laaguchi!",hindi:"Bahut smart lag rahe ho!",use:"Overall compliment"},{odia:"Khaanaa bahut swadist!",hindi:"Khaana bahut tasty!",use:"Food praise"},{odia:"Tume bahut talented",hindi:"Tum bahut talented ho",use:"Talent praise"},{odia:"Tuma ghara bahut sundara",hindi:"Tumhara ghar bahut sundar hai",use:"Home compliment"},{odia:"Mu tuma saathire enjoy karuchi",hindi:"Main tumhare saath enjoy kar raha",use:"Company appreciate"},{odia:"Tume bahut helpful",hindi:"Tum bahut helpful ho",use:"Help acknowledge"}],conversation:[{speaker:"Tum",side:"right",odia:"Wah! Khaanaa bahut swadist!",meaning:"Wah! Khaana bahut tasty!"},{speaker:"Host",side:"left",odia:"Dhanyabaad! Aau khaao!",meaning:"Shukriya! Aur khao!"},{speaker:"Tum",side:"right",odia:"Tume bahut bhala cook!",meaning:"Tum bahut achhe cook ho!"},{speaker:"Host",side:"left",odia:"Tume bahut sweet!",meaning:"Tum bahut sweet ho!"}],proTip:"Odia log compliments ko bahut value karte hain. 'Bahut bhala!' ya 'Bahut sundara!' bol do — dil jeet loge!",revision:[{odia:"Jhia",hindi:"Beti"},{odia:"Pua",hindi:"Beta"},{odia:"Bandhu",hindi:"Dost"}]},
+    23:{focus:"Sorry, Excuse me, aur awkward situations handle karna.",phrases:[{odia:"Maaf kara",hindi:"Sorry / Maaf karo",use:"Galti pe sorry"},{odia:"Mu galti karideli",hindi:"Maine galti kar di",use:"Admit mistake"},{odia:"Dayakari, rasta diya",hindi:"Please, rasta de do",use:"Crowd mein"},{odia:"Mu late heigali",hindi:"Main late ho gaya",use:"Late hone pe"},{odia:"Iye mu karani",hindi:"Ye maine nahi kiya",use:"Deny karna"},{odia:"Mu bhuli gali",hindi:"Main bhool gaya",use:"Forgetful moment"},{odia:"Aaste aaste!",hindi:"Dheere dheere!",use:"Patience rakhna"},{odia:"Kichhi hela naa",hindi:"Kuch nahi hua",use:"Console karna"},{odia:"Tension niya naahiin",hindi:"Tension mat lo",use:"Calm karna"},{odia:"Saburi rakhaa",hindi:"Sabr rakho / Patience",use:"Wait karna"},{odia:"Mu bahut sorry",hindi:"Main bahut sorry hoon",use:"Deep apology"}],conversation:[{speaker:"Tum",side:"right",odia:"Maaf kara, mu late heigali!",meaning:"Sorry, main late ho gaya!"},{speaker:"Dost",side:"left",odia:"Kichhi hela naa, aasaa chala!",meaning:"Kuch nahi hua, aa chalo!"},{speaker:"Tum",side:"right",odia:"Mu bhuli gali address!",meaning:"Main bhool gaya address!"},{speaker:"Dost",side:"left",odia:"Tension niya naahiin, mu map dekhuchi",meaning:"Tension mat lo, main map dekh raha"}],proTip:"'Kichhi hela naa' = 'Kuch nahi hua' — ye sabse reassuring phrase hai. Koi sorry bole toh ye bol do, saamne waala relax ho jaayega.",revision:[{odia:"Bahut sundara!",hindi:"Bahut sundar!"},{odia:"Tume bahut bhala",hindi:"Tum bahut achhe ho"},{odia:"Mausi",hindi:"Mausi / Aunt"}]},
+    24:{focus:"Likes aur dislikes batana — Pasand, Napasand Odia mein.",phrases:[{odia:"Mu ku bhala laage",hindi:"Mujhe achha lagta hai",use:"Like something"},{odia:"Mu ku bhala naahiin laage",hindi:"Mujhe achha nahi lagta",use:"Dislike something"},{odia:"Mu maachha khaaiba pasand",hindi:"Mujhe machli khaana pasand",use:"Food preference"},{odia:"Mu cricket kheli bhala paae",hindi:"Mujhe cricket khelna pasand hai",use:"Hobby share"},{odia:"Mu ku movie dekhiba bhala laage",hindi:"Mujhe movie dekhna achha lagta",use:"Entertainment"},{odia:"Mu ku garma bhala naahiin laage",hindi:"Mujhe garmi pasand nahi",use:"Weather dislike"},{odia:"Tumu kana pasand?",hindi:"Tumhe kya pasand hai?",use:"Preference poochna"},{odia:"Mu ku Odia gaana bhala laage",hindi:"Mujhe Odia gaane achhe lagte",use:"Music taste"},{odia:"Iye mu ku pasand naahiin",hindi:"Ye mujhe pasand nahi",use:"Reject politely"},{odia:"Mu favourite iye!",hindi:"Mera favourite ye hai!",use:"Favourite batana"}],conversation:[{speaker:"Dost",side:"left",odia:"Tumu kana khaiba pasand?",meaning:"Tumhe kya khaana pasand?"},{speaker:"Tum",side:"right",odia:"Mu ku maachha bahut bhala laage!",meaning:"Mujhe machli bahut pasand!"},{speaker:"Dost",side:"left",odia:"Mu ku bi! Chala maachha khaiba!",meaning:"Mujhe bhi! Chalo machli khate hain!"},{speaker:"Tum",side:"right",odia:"Bahut bhala idea!",meaning:"Bahut achha idea!"}],proTip:"'Bhala laage' = Achha lagta hai, 'Bhala naahiin laage' = Achha nahi lagta. Ye do phrases se tum har cheez ke baare mein opinion de sakte ho!",revision:[{odia:"Maaf kara",hindi:"Sorry"},{odia:"Mu bhuli gali",hindi:"Main bhool gaya"},{odia:"Kichhi hela naa",hindi:"Kuch nahi hua"}]},
+    25:{focus:"Jagah describe karna — Bada, Chhota, Sundar, Ganda Odia mein.",phrases:[{odia:"Bada",hindi:"Bada / Big",use:"Size batana"},{odia:"Sana",hindi:"Chhota / Small",use:"Small size"},{odia:"Sundara",hindi:"Sundar / Beautiful",use:"Beautiful"},{odia:"Gandaa",hindi:"Ganda / Dirty",use:"Dirty/bad"},{odia:"Saafa",hindi:"Saaf / Clean",use:"Clean"},{odia:"Nua",hindi:"Naya / New",use:"New thing"},{odia:"Puruna",hindi:"Puraana / Old",use:"Old thing"},{odia:"Bhala",hindi:"Achha / Good",use:"Good quality"},{odia:"Kharap",hindi:"Kharab / Bad",use:"Bad quality"},{odia:"Iye jagah bahut sundara",hindi:"Ye jagah bahut sundar hai",use:"Place describe"},{odia:"Bahut bada ghara!",hindi:"Bahut bada ghar!",use:"Size appreciate"},{odia:"Ethare bahut saafa achhi",hindi:"Yahan bahut saaf hai",use:"Cleanliness note"}],conversation:[{speaker:"Tum",side:"right",odia:"Wah, iye mandira bahut sundara!",meaning:"Wah, ye mandir bahut sundar!"},{speaker:"Dost",side:"left",odia:"Haan! Bahut puruna bi achhi",meaning:"Haan! Bahut puraana bhi hai"},{speaker:"Tum",side:"right",odia:"Aau bahut bada!",meaning:"Aur bahut bada!"},{speaker:"Dost",side:"left",odia:"Photo tolaa!",meaning:"Photo lo!"}],proTip:"Adjectives Odia mein Hindi jaisa hi kaam karte hain — noun ke pehle lagate hain. 'Bada ghara' = Bada ghar, 'Sundara jhia' = Sundar ladki.",revision:[{odia:"Mu ku bhala laage",hindi:"Mujhe achha lagta"},{odia:"Mu favourite iye!",hindi:"Mera favourite ye"},{odia:"Mu ku garma bhala naahiin laage",hindi:"Garmi pasand nahi"}]},
+    26:{focus:"Permission lena aur dena — 'Kya main kar sakta hoon?' Odia mein.",phrases:[{odia:"Mu kariba paaribi?",hindi:"Kya main kar sakta hoon?",use:"Permission lena"},{odia:"Mu jaai paaribi?",hindi:"Kya main ja sakta hoon?",use:"Jaane ki permission"},{odia:"Mu basi paaribi?",hindi:"Kya main baith sakta hoon?",use:"Baithne ki permission"},{odia:"Haan, paariba",hindi:"Haan, kar sakte ho",use:"Permission dena"},{odia:"Naa, paaribi naahiin",hindi:"Nahi, nahi kar sakte",use:"Deny permission"},{odia:"Ethare photo toli paaribi?",hindi:"Yahan photo le sakta hoon?",use:"Photo permission"},{odia:"Mu iye niye paaribi?",hindi:"Main ye le sakta hoon?",use:"Taking permission"},{odia:"Dayakari, anumati diya",hindi:"Please, permission de do",use:"Formal request"},{odia:"Thik achhi, karaa",hindi:"Theek hai, karo",use:"Casual permission"},{odia:"Ebe naahiin, pare",hindi:"Abhi nahi, baad mein",use:"Delay permission"}],conversation:[{speaker:"Tum",side:"right",odia:"Dayakari, ethare basi paaribi?",meaning:"Please, yahan baith sakta hoon?"},{speaker:"Person",side:"left",odia:"Haan haan, basa basa!",meaning:"Haan haan, baitho baitho!"},{speaker:"Tum",side:"right",odia:"Photo toli paaribi?",meaning:"Photo le sakta hoon?"},{speaker:"Person",side:"left",odia:"Thik achhi, tolaa!",meaning:"Theek hai, lo!"}],proTip:"'Paaribi' = Sakta hoon. Kisi bhi verb ke saath lagao: 'Khaai paaribi' = Kha sakta hoon, 'Dekhi paaribi' = Dekh sakta hoon. Super useful pattern!",revision:[{odia:"Bada",hindi:"Bada / Big"},{odia:"Sundara",hindi:"Sundar"},{odia:"Puruna",hindi:"Puraana / Old"}]},
+    27:{focus:"Future plans batana — Karunga, Jaunga, Khaaunga Odia mein.",phrases:[{odia:"Mu kariba",hindi:"Main karunga",use:"Future action"},{odia:"Mu jaiba",hindi:"Main jaunga",use:"Future travel"},{odia:"Mu khaiba",hindi:"Main khaaunga",use:"Future eating"},{odia:"Mu padiba",hindi:"Main padhunga",use:"Future study"},{odia:"Mu kiniba",hindi:"Main khareedunga",use:"Future buy"},{odia:"Kaali mu Puri jaiba",hindi:"Kal main Puri jaunga",use:"Plan share"},{odia:"Aagami week mu busy",hindi:"Agle week main busy hoon",use:"Schedule batana"},{odia:"Mu try kariba",hindi:"Main try karunga",use:"Commitment"},{odia:"Hum sabuu miliba",hindi:"Hum sab milenge",use:"Group plan"},{odia:"Mu phone kariba raati ku",hindi:"Main raat ko phone karunga",use:"Promise"},{odia:"Tume aasiba?",hindi:"Tum aaoge?",use:"Invite karna"}],conversation:[{speaker:"Dost",side:"left",odia:"Weekend kana kariba?",meaning:"Weekend kya karoge?"},{speaker:"Tum",side:"right",odia:"Mu Puri jaiba! Tume aasiba?",meaning:"Main Puri jaunga! Tum aaoge?"},{speaker:"Dost",side:"left",odia:"Bahut bhala! Mu bi jaiba!",meaning:"Bahut achha! Main bhi jaunga!"},{speaker:"Tum",side:"right",odia:"Chala, kaali plan kariba!",meaning:"Chalo, kal plan karte hain!"}],proTip:"Future tense simple hai: verb root + 'iba'. Kar → Kariba, Jaa → Jaiba, Khaa → Khaiba. Bas ye pattern yaad rakho!",revision:[{odia:"Mu kariba paaribi?",hindi:"Kya main kar sakta?"},{odia:"Ethare photo toli paaribi?",hindi:"Photo le sakta hoon?"},{odia:"Thik achhi",hindi:"Theek hai"}]},
+    28:{focus:"Past batana — Kiya, Gaya, Khaya Odia mein.",phrases:[{odia:"Mu karideli",hindi:"Maine kiya",use:"Past action"},{odia:"Mu gali",hindi:"Main gaya",use:"Past travel"},{odia:"Mu khaaideli",hindi:"Maine khaya",use:"Past eating"},{odia:"Mu dekhili",hindi:"Maine dekha",use:"Past seeing"},{odia:"Mu sunili",hindi:"Maine suna",use:"Past hearing"},{odia:"Kaali mu market gali",hindi:"Kal main market gaya",use:"Yesterday event"},{odia:"Mu se movie dekhili",hindi:"Maine wo movie dekhi",use:"Movie review"},{odia:"Bahut maja hela!",hindi:"Bahut maza aaya!",use:"Fun experience"},{odia:"Mu bhuli gali",hindi:"Main bhool gaya",use:"Forgot something"},{odia:"Kana hela kaali?",hindi:"Kal kya hua?",use:"Poochna"}],conversation:[{speaker:"Dost",side:"left",odia:"Kaali kana kaala?",meaning:"Kal kya kiya?"},{speaker:"Tum",side:"right",odia:"Mu Jagannath Mandira gali!",meaning:"Main Jagannath Mandir gaya!"},{speaker:"Dost",side:"left",odia:"Wah! Kemiti lagila?",meaning:"Wah! Kaisa laga?"},{speaker:"Tum",side:"right",odia:"Bahut sundara! Bahut maja hela!",meaning:"Bahut sundar! Bahut maza aaya!"}],proTip:"Past tense: '-ili'/'-deli'/'-gali' endings. 'Mu gali' = Main gaya, 'Mu karideli' = Maine kiya. Hindi jaisa pattern hai!",revision:[{odia:"Mu kariba",hindi:"Main karunga"},{odia:"Kaali mu jaiba",hindi:"Kal main jaunga"},{odia:"Tume aasiba?",hindi:"Tum aaoge?"}]},
+    29:{focus:"Emotions deep level — Pyaar, Dosti, Trust Odia mein.",phrases:[{odia:"Mu tuma ku bhala paae",hindi:"Main tumse pyaar karta hoon",use:"Love express"},{odia:"Tume mu ra bhala bandhu",hindi:"Tum mere achhe dost ho",use:"Friendship"},{odia:"Mu tuma ku believe kare",hindi:"Main tumpe bharosa karta hoon",use:"Trust express"},{odia:"Mu tuma ku miss karuchi",hindi:"Main tumhe miss kar raha",use:"Missing someone"},{odia:"Tume mu ku bahut important",hindi:"Tum mere liye bahut important ho",use:"Value show"},{odia:"Mu tuma paain proud",hindi:"Mujhe tumpe garv hai",use:"Proud feeling"},{odia:"Hum sabuu eka saathire",hindi:"Hum sab ek saath hain",use:"Unity"},{odia:"Mu tuma ku support kariba",hindi:"Main tumhe support karunga",use:"Support promise"},{odia:"Dosti forever!",hindi:"Dosti hamesha!",use:"Friendship seal"},{odia:"Tume mu ra life re special",hindi:"Tum meri life mein special ho",use:"Special person"}],conversation:[{speaker:"Dost",side:"left",odia:"Bhai, dhanyabaad sabukichhi paain!",meaning:"Bhai, shukriya sab kuch ke liye!"},{speaker:"Tum",side:"right",odia:"Are, tume mu ra best bandhu!",meaning:"Are, tum mere best dost ho!"},{speaker:"Dost",side:"left",odia:"Mu bi tuma ku miss kariba!",meaning:"Main bhi tumhe miss karunga!"},{speaker:"Tum",side:"right",odia:"Hum sabuu connected achhu!",meaning:"Hum sab connected hain!"}],proTip:"'Bhala paae' = Pyaar karna. Odia mein emotions bahut openly express karte hain. 'Mu tuma ku bhala paae' — ye sunke koi bhi Odia khush ho jaayega!",revision:[{odia:"Mu karideli",hindi:"Maine kiya"},{odia:"Bahut maja hela!",hindi:"Bahut maza aaya!"},{odia:"Mu dekhili",hindi:"Maine dekha"}]},
+    30:{focus:"Phase 3 Revision! Logon ke saath baat karne ke sabhi tools.",phrases:[{odia:"Namaskar! Kemiti achhi? Mu tuma ku miss karuchi!",hindi:"Hello! Kaise ho? Tumhe miss kar raha tha!",use:"Warm greeting"},{odia:"Maaf kara, mu late heigali",hindi:"Sorry, main late ho gaya",use:"Apology"},{odia:"Bahut sundara lugaa! Tume smart laaguchi!",hindi:"Bahut sundar kapde! Smart lag rahe ho!",use:"Compliment"},{odia:"Mu ku maachha bahut bhala laage",hindi:"Mujhe machli bahut pasand",use:"Preference"},{odia:"Kaali mu Puri gali, bahut maja hela!",hindi:"Kal Puri gaya, bahut maza aaya!",use:"Past share"},{odia:"Weekend mu rest kariba",hindi:"Weekend main rest karunga",use:"Future plan"},{odia:"Tume mu ra best bandhu!",hindi:"Tum mere best dost ho!",use:"Friendship"},{odia:"Dayakari, photo toli paaribi?",hindi:"Please, photo le sakta hoon?",use:"Permission"},{odia:"Iye jagah bahut sundara aau saafa!",hindi:"Ye jagah bahut sundar aur saaf!",use:"Describe place"},{odia:"Mu tuma paain proud!",hindi:"Mujhe tumpe garv hai!",use:"Deep emotion"}],conversation:[{speaker:"Tum",side:"right",odia:"Namaskar! Bahut din hela bheti naahiin!",meaning:"Hello! Bahut din ho gaye mile nahi!"},{speaker:"Dost",side:"left",odia:"Are bhai! Kemiti achhi? Kana karuchi?",meaning:"Are bhai! Kaise ho? Kya kar rahe ho?"},{speaker:"Tum",side:"right",odia:"Mu bhala achhi! Odia sikhuchi!",meaning:"Main theek hoon! Odia seekh raha hoon!"},{speaker:"Dost",side:"left",odia:"Wah! Bahut bhala! Mu tuma paain proud!",meaning:"Wah! Bahut achha! Mujhe garv hai!"}],proTip:"Phase 3 complete! Ab tum logon se emotionally connect ho sakte ho Odia mein — tareef, sorry, pyaar, dosti sab express kar sakte ho! 🎉",revision:[{odia:"Mu tuma ku bhala paae",hindi:"Main tumse pyaar karta hoon"},{odia:"Dosti forever!",hindi:"Dosti hamesha!"},{odia:"Saburi rakhaa",hindi:"Patience rakho"}]}
+  };
+
+  // Phase 4-6 templates
+  const phase4to6 = {
+    31:{focus:"Doctor ke paas jaana — Symptoms, Problem batana Odia mein.",phrases:[{odia:"Mu ku bukhar achhi",hindi:"Mujhe bukhar hai",use:"Fever batana"},{odia:"Mu ku sardi hela",hindi:"Mujhe sardi ho gayi",use:"Cold/cough"},{odia:"Peta kharap achhi",hindi:"Pet kharab hai",use:"Stomach problem"},{odia:"Ethare dukhuchi",hindi:"Yahan dard ho raha",use:"Point to pain"},{odia:"Kebe tharu hela?",hindi:"Kab se hai?",use:"Doctor poochega"},{odia:"Kaali tharu",hindi:"Kal se",use:"Duration batana"},{odia:"Ausadha khauchi",hindi:"Dawai kha raha hoon",use:"Medicine info"},{odia:"Allergy achhi",hindi:"Allergy hai",use:"Allergy batana"},{odia:"Test kariba ki?",hindi:"Test karwana hoga?",use:"Test query"},{odia:"Kete din lagiba?",hindi:"Kitne din lagenge?",use:"Recovery time"},{odia:"Mu better feel karuchi",hindi:"Main better feel kar raha",use:"Improvement"},{odia:"Dhanyabaad Doctor!",hindi:"Thank you Doctor!",use:"Thanks"}],conversation:[{speaker:"Doctor",side:"left",odia:"Kana hela? Kemiti asusthu?",meaning:"Kya hua? Kaise beemar?"},{speaker:"Tum",side:"right",odia:"Mu ku bukhar achhi, aau peta kharap",meaning:"Bukhar hai aur pet kharab hai"},{speaker:"Doctor",side:"left",odia:"Kebe tharu?",meaning:"Kab se?"},{speaker:"Tum",side:"right",odia:"Kaali ratiru tharu",meaning:"Kal raat se"}],proTip:"Doctor ke paas Odia mein baat karna bahut respect dikhata hai. Basic symptoms yaad rakho: Bukhar, Sardi, Peta kharap, Maatha dhuruchi.",revision:[{odia:"Mu asusthu",hindi:"Main beemar"},{odia:"Maatha dhuruchi",hindi:"Sir dard ho raha"},{odia:"Hospital kuaade?",hindi:"Hospital kahan?"}]},
+    32:{focus:"Restaurant mein full order karna — Starter se Dessert tak.",phrases:[{odia:"Menu dekhao",hindi:"Menu dikhao",use:"Menu maangna"},{odia:"Aaji special kana?",hindi:"Aaj special kya hai?",use:"Special poochna"},{odia:"Mu veg khaae",hindi:"Main veg khaata hoon",use:"Veg preference"},{odia:"Non-veg achhi?",hindi:"Non-veg hai?",use:"Non-veg poochna"},{odia:"Iye kete samay lagiba?",hindi:"Ye kitna time lagega?",use:"Wait time"},{odia:"Paani diya, thanda",hindi:"Paani do, thanda",use:"Cold water"},{odia:"Meetha kana achhi?",hindi:"Meetha kya hai?",use:"Dessert poochna"},{odia:"Rasgulla diya",hindi:"Rasgulla de do",use:"Odia favourite sweet!"},{odia:"Bill diya, alag alag",hindi:"Bill do, alag alag",use:"Split bill"},{odia:"Bahut swadist hela!",hindi:"Bahut tasty tha!",use:"Food praise"},{odia:"Tip rakhaa",hindi:"Tip rakh lo",use:"Tip dena"},{odia:"Parcel karaa",hindi:"Pack kar do",use:"Takeaway"}],conversation:[{speaker:"Waiter",side:"left",odia:"Namaskar! Kana order kariba?",meaning:"Hello! Kya order karenge?"},{speaker:"Tum",side:"right",odia:"Menu dekhao. Aaji special kana?",meaning:"Menu dikhao. Aaj special kya?"},{speaker:"Waiter",side:"left",odia:"Aaji special: Maachha besara aau dahi baigana",meaning:"Aaj special: Fish curry aur dahi baingan"},{speaker:"Tum",side:"right",odia:"Dui ta special, aau rasgulla!",meaning:"Do special, aur rasgulla!"}],proTip:"'Rasgulla' Odisha ki national sweet hai! Original Rasgulla Odisha se hai (Pahala Rasgulla famous hai). Ye order karo toh waiter khush ho jaayega! 🍲",revision:[{odia:"Bhat daalma diya",hindi:"Chawal dal do"},{odia:"Jhaal kama",hindi:"Teekha kam"},{odia:"Khaanaa bahut swadist!",hindi:"Khaana bahut tasty!"}]},
+    33:{focus:"Office aur kaam ki baatein — Meeting, Boss, Kaam Odia mein.",phrases:[{odia:"Mu office jauchi",hindi:"Main office ja raha hoon",use:"Going to work"},{odia:"Meeting kebe?",hindi:"Meeting kab hai?",use:"Schedule poochna"},{odia:"Mu busy achhi",hindi:"Main busy hoon",use:"Busy batana"},{odia:"Kaama hei gala",hindi:"Kaam ho gaya",use:"Work done"},{odia:"Aau kichhi?",hindi:"Aur kuch?",use:"Next task"},{odia:"Deadline kebe?",hindi:"Deadline kab hai?",use:"Timeline"},{odia:"Mu report pathaauchi",hindi:"Main report bhej raha",use:"Sending work"},{odia:"Email check karaa",hindi:"Email check karo",use:"Follow up"},{odia:"Salary kebe aasiba?",hindi:"Salary kab aayegi?",use:"Pay query"},{odia:"Mu leave re achhi kaali",hindi:"Main kal leave pe hoon",use:"Leave inform"},{odia:"Boss ku bolu ki?",hindi:"Boss ko bolein kya?",use:"Escalation"}],conversation:[{speaker:"Colleague",side:"left",odia:"Meeting kebe?",meaning:"Meeting kab hai?"},{speaker:"Tum",side:"right",odia:"Tini baje. Tume ready?",meaning:"3 baje. Tum ready?"},{speaker:"Colleague",side:"left",odia:"Haan, report tayaar achhi",meaning:"Haan, report tayaar hai"},{speaker:"Tum",side:"right",odia:"Bahut bhala! Email re pathao",meaning:"Bahut achha! Email pe bhejo"}],proTip:"Office mein Odia use karna colleagues ke saath bonding badhata hai. Basic work words same hain (meeting, report, email) — bas surrounding Odia lagao!",revision:[{odia:"Menu dekhao",hindi:"Menu dikhao"},{odia:"Parcel karaa",hindi:"Pack kar do"},{odia:"Rasgulla",hindi:"Rasgulla (Odia sweet)"}]},
+    34:{focus:"Emergency situations — Help maangna, Problem batana.",phrases:[{odia:"Sahajya karaa!",hindi:"Help karo!",use:"Emergency help"},{odia:"Police bulao!",hindi:"Police bulao!",use:"Crime/danger"},{odia:"Aamba ambulance!",hindi:"Ambulance bulao!",use:"Medical emergency"},{odia:"Aagya!",hindi:"Aag lagi hai!",use:"Fire emergency"},{odia:"Chor! Chor!",hindi:"Chor! Thief!",use:"Theft report"},{odia:"Mu haraa gali",hindi:"Main kho gaya hoon",use:"Lost hona"},{odia:"Mu ra bag chori heigala",hindi:"Mera bag chori ho gaya",use:"Theft report"},{odia:"Nikata hospital kuaade?",hindi:"Nazdeek hospital kahan?",use:"Medical help"},{odia:"Dayakari, jaldi aasaa!",hindi:"Please jaldi aao!",use:"Urgent help"},{odia:"Mu ku danger achhi",hindi:"Mujhe khatraa hai",use:"Danger alert"},{odia:"Iye number re call karaa",hindi:"Is number pe call karo",use:"Emergency contact"}],conversation:[{speaker:"Tum",side:"right",odia:"Sahajya karaa! Mu haraa gali!",meaning:"Help karo! Main kho gaya hoon!"},{speaker:"Local",side:"left",odia:"Kuaade jaiba?",meaning:"Kahan jaana hai?"},{speaker:"Tum",side:"right",odia:"Mu ra hotel, naam 'Grand'",meaning:"Mera hotel, naam 'Grand'"},{speaker:"Local",side:"left",odia:"Aasaa, mu dekhaauchi!",meaning:"Aao, main dikhata hoon!"}],proTip:"Emergency mein 'Sahajya karaa!' (Help karo) loud bolna — sab samajh jaayenge. Odia log bahut helpful hain, especially tourists ke saath!",revision:[{odia:"Meeting kebe?",hindi:"Meeting kab?"},{odia:"Mu busy achhi",hindi:"Main busy hoon"},{odia:"Kaama hei gala",hindi:"Kaam ho gaya"}]},
+    35:{focus:"Hotel/Guest house mein rehna — Booking, Room, Checkout.",phrases:[{odia:"Room achhi?",hindi:"Room hai?",use:"Availability poochna"},{odia:"Eka raati kete?",hindi:"Ek raat kitne?",use:"Price poochna"},{odia:"AC room chaahein",hindi:"AC room chahiye",use:"AC preference"},{odia:"WiFi password kana?",hindi:"WiFi password kya?",use:"Internet"},{odia:"Room saafa karaa",hindi:"Room saaf karo",use:"Housekeeping"},{odia:"Towel diya",hindi:"Towel de do",use:"Extra towel"},{odia:"Garam paani achhi?",hindi:"Garam paani hai?",use:"Hot water"},{odia:"Breakfast kebe?",hindi:"Breakfast kab?",use:"Meal time"},{odia:"Checkout kebe?",hindi:"Checkout kab?",use:"Checkout time"},{odia:"Bill tayaar karaa",hindi:"Bill tayaar karo",use:"Final payment"},{odia:"Taxi arrange karaa",hindi:"Taxi arrange karo",use:"Travel arrange"},{odia:"Bahut bhala stay hela!",hindi:"Bahut achhi stay rahi!",use:"Feedback dena"}],conversation:[{speaker:"Tum",side:"right",odia:"Namaskar! AC room achhi eka raati paain?",meaning:"Hello! AC room hai ek raat ke liye?"},{speaker:"Hotel",side:"left",odia:"Haan achhi! Paandara sau tanka",meaning:"Haan hai! 1500 rupaye"},{speaker:"Tum",side:"right",odia:"WiFi achhi? Aau breakfast?",meaning:"WiFi hai? Aur breakfast?"},{speaker:"Hotel",side:"left",odia:"Haan, sabuu achhi! Check-in karaa",meaning:"Haan, sab hai! Check-in karo"}],proTip:"Odisha mein chhote towns mein 'Panthaniwas' (government guest house) bahut sasta aur achha rehta hai. 'Panthaniwas kuaade?' pooch sakte ho!",revision:[{odia:"Sahajya karaa!",hindi:"Help karo!"},{odia:"Mu haraa gali",hindi:"Main kho gaya"},{odia:"Jaldi aasaa!",hindi:"Jaldi aao!"}]},
+    36:{focus:"Festival aur celebrations — Odia festivals aur tyohar.",phrases:[{odia:"Rath Yatra",hindi:"Rath Yatra (Puri festival)",use:"Biggest Odia festival"},{odia:"Raja festival",hindi:"Raja parba (3-din celebration)",use:"Women's festival"},{odia:"Kumar Purnima",hindi:"Kumar Purnima",use:"Harvest/moon festival"},{odia:"Mo bhala dina!",hindi:"Mera achha din!",use:"Happy feeling"},{odia:"Shubha kaamana!",hindi:"Shubh kaamnayein!",use:"Wishes dena"},{odia:"Celebration kariba!",hindi:"Celebrate karenge!",use:"Party plan"},{odia:"Prasaad niya",hindi:"Prasad lo",use:"Temple prasad"},{odia:"Deeya jalao",hindi:"Diya jalao",use:"Festival ritual"},{odia:"Bahut sundara sajya!",hindi:"Bahut sundar sajawat!",use:"Decoration praise"},{odia:"Pitha khaao!",hindi:"Pitha khao! (Odia sweet)",use:"Festival food offer"},{odia:"Nabakalebar!",hindi:"Nabakalebar! (Temple renewal)",use:"Special event"}],conversation:[{speaker:"Dost",side:"left",odia:"Rath Yatra ku aasiba?",meaning:"Rath Yatra pe aaoge?"},{speaker:"Tum",side:"right",odia:"Haan! Bahut excited! Kemiti hue?",meaning:"Haan! Bahut excited! Kaisa hota hai?"},{speaker:"Dost",side:"left",odia:"Bahut bada festival! Lakha lakha lok aase!",meaning:"Bahut bada festival! Lakho log aate hain!"},{speaker:"Tum",side:"right",odia:"Mu Pitha khaiba! Aau Prasaad!",meaning:"Main Pitha khaunga! Aur Prasad!"}],proTip:"Rath Yatra world famous hai aur Puri mein hota hai. 'Pitha' Odia special sweet hai jo festivals pe banti hai — must try! Different types hain: Arisa, Kakara, Manda.",revision:[{odia:"Room achhi?",hindi:"Room hai?"},{odia:"Checkout kebe?",hindi:"Checkout kab?"},{odia:"Bahut bhala stay!",hindi:"Bahut achhi stay!"}]},
+    37:{focus:"Jagannath Mandir aur spiritual places ki baatein.",phrases:[{odia:"Jay Jagannath!",hindi:"Jai Jagannath!",use:"Universal greeting in Odisha"},{odia:"Mandira kebe khule?",hindi:"Mandir kab khulta hai?",use:"Temple timing"},{odia:"Darshan heba ki?",hindi:"Darshan hoga kya?",use:"Darshan poochna"},{odia:"Puja kariba",hindi:"Puja karunga",use:"Worship plan"},{odia:"Prasaad kuaade mile?",hindi:"Prasad kahan milta hai?",use:"Prasad counter"},{odia:"Mahaprasaad",hindi:"Mahaprasad (holy food)",use:"Jagannath special"},{odia:"Bahut pavitra jagah!",hindi:"Bahut pavitra jagah!",use:"Sacred place"},{odia:"Bhajan sunuchi",hindi:"Bhajan sun raha hoon",use:"Listening bhajan"},{odia:"Line kete lamba?",hindi:"Line kitni lambi?",use:"Queue poochna"},{odia:"Joota kuaade rakhiba?",hindi:"Joote kahan rakhein?",use:"Shoe counter"},{odia:"Camera allowed?",hindi:"Camera allowed hai?",use:"Photo rule"}],conversation:[{speaker:"Tum",side:"right",odia:"Jay Jagannath! Darshan line kuaade?",meaning:"Jai Jagannath! Darshan line kahan?"},{speaker:"Sevak",side:"left",odia:"Ethikin, baama pakha jaao",meaning:"Yahan se, left jao"},{speaker:"Tum",side:"right",odia:"Mahaprasaad kete?",meaning:"Mahaprasad kitne ka?"},{speaker:"Sevak",side:"left",odia:"Paanch tanka. Bahut swadist!",meaning:"5 rupaye. Bahut tasty!"}],proTip:"'Jay Jagannath' Odisha ka universal greeting hai — koi bhi, kahi bhi bol sakte ho. Mandir mein, bus mein, dukaan mein — sab jagah chalega!",revision:[{odia:"Rath Yatra",hindi:"Puri festival"},{odia:"Pitha khaao!",hindi:"Odia sweet khao!"},{odia:"Shubha kaamana!",hindi:"Shubh wishes!"}]},
+    38:{focus:"Beach aur nature — Puri beach, river, jungle ki baatein.",phrases:[{odia:"Samudra",hindi:"Samundar / Sea",use:"Sea/ocean"},{odia:"Nadi",hindi:"Nadi / River",use:"River"},{odia:"Jungle / Bana",hindi:"Jungle",use:"Forest"},{odia:"Baalu",hindi:"Ret / Sand",use:"Beach sand"},{odia:"Dheu",hindi:"Lahar / Wave",use:"Sea waves"},{odia:"Surya asta",hindi:"Sunset",use:"Sunset dekhna"},{odia:"Bahut sundara samudra!",hindi:"Bahut sundar samundar!",use:"Beach appreciate"},{odia:"Paani re jaiba?",hindi:"Paani mein jaayein?",use:"Swimming suggest"},{odia:"Saavdhaan! Dheu bada!",hindi:"Savdhaan! Laharein badi!",use:"Safety warning"},{odia:"Shell sangrah kariba!",hindi:"Shell collect karenge!",use:"Beach activity"},{odia:"Machhi dhara dekhao",hindi:"Fish catching dikhao",use:"Fishing watch"},{odia:"Aaji sunset bahut sundara!",hindi:"Aaj sunset bahut sundar!",use:"Evening at beach"}],conversation:[{speaker:"Tum",side:"right",odia:"Wah! Puri samudra bahut sundara!",meaning:"Wah! Puri ka samundar bahut sundar!"},{speaker:"Dost",side:"left",odia:"Haan! Dheu re kheliba?",meaning:"Haan! Laharon mein khelein?"},{speaker:"Tum",side:"right",odia:"Haan chala! Aau surya asta dekhiba!",meaning:"Haan chalo! Aur sunset dekhenge!"},{speaker:"Dost",side:"left",odia:"Baalu re basi suniba dheu!",meaning:"Ret pe baithke sunenge laharen!"}],proTip:"Puri beach India ki sabse famous beaches mein se ek hai. 'Chandrabhaga beach' Konark ke paas hai — less crowded aur bahut peaceful!",revision:[{odia:"Jay Jagannath!",hindi:"Jai Jagannath!"},{odia:"Darshan heba ki?",hindi:"Darshan hoga?"},{odia:"Mandira kebe khule?",hindi:"Mandir kab khulta?"}]},
+    39:{focus:"Invitation dena aur accept/decline karna.",phrases:[{odia:"Tume aasiba mu ghara ku?",hindi:"Tum aana mere ghar?",use:"Home invite"},{odia:"Party achhi kaali raati!",hindi:"Party hai kal raat!",use:"Party invite"},{odia:"Tume invited!",hindi:"Tum invited ho!",use:"Formal invite"},{odia:"Mu aasuchi!",hindi:"Main aa raha hoon!",use:"Accept"},{odia:"Sorry, mu aasi paaribi naahiin",hindi:"Sorry, main nahi aa paunga",use:"Decline"},{odia:"Kebe aau kuaade?",hindi:"Kab aur kahan?",use:"Details poochna"},{odia:"Mu kana aanibi?",hindi:"Main kya laun?",use:"Contribution offer"},{odia:"Bahut bhala! Mu definitely aasiba!",hindi:"Bahut achha! Main zaroor aaunga!",use:"Enthusiastic accept"},{odia:"Pare plan kariba?",hindi:"Baad mein plan karein?",use:"Postpone"},{odia:"Sabuu ku bulao!",hindi:"Sab ko bulao!",use:"Include everyone"},{odia:"Kana wear kariba?",hindi:"Kya pehnu?",use:"Dress code"}],conversation:[{speaker:"Dost",side:"left",odia:"Bhai, mu ra birthday party achhi! Tume aasiba?",meaning:"Bhai, meri birthday party hai! Tum aaoge?"},{speaker:"Tum",side:"right",odia:"Kebe aau kuaade? Mu definitely aasiba!",meaning:"Kab aur kahan? Main zaroor aaunga!"},{speaker:"Dost",side:"left",odia:"Kaali sandhya, mu ghara re!",meaning:"Kal shaam, mere ghar pe!"},{speaker:"Tum",side:"right",odia:"Mu kana aanibi? Cake ki gift?",meaning:"Main kya laun? Cake ya gift?"}],proTip:"Odia culture mein invitation accept karna bahut important hai. Agar nahi ja sako toh politely decline karo with reason — 'Sorry, kaama achhi' = 'Sorry, kaam hai'.",revision:[{odia:"Samudra",hindi:"Samundar/Sea"},{odia:"Surya asta",hindi:"Sunset"},{odia:"Dheu",hindi:"Lahar/Wave"}]},
+    40:{focus:"Phase 4 Revision! Real situations handle karna.",phrases:[{odia:"Doctor, mu ku bukhar achhi kaali tharu",hindi:"Doctor, mujhe kal se bukhar hai",use:"Medical situation"},{odia:"Menu dekhao, veg kana achhi?",hindi:"Menu dikhao, veg kya hai?",use:"Restaurant"},{odia:"Meeting tini baje, report pathaauchi",hindi:"Meeting 3 baje, report bhej raha",use:"Office"},{odia:"Sahajya karaa! Mu haraa gali!",hindi:"Help! Main kho gaya!",use:"Emergency"},{odia:"AC room achhi? WiFi sahita?",hindi:"AC room hai? WiFi ke saath?",use:"Hotel"},{odia:"Jay Jagannath! Darshan kebe?",hindi:"Jai Jagannath! Darshan kab?",use:"Temple"},{odia:"Rath Yatra ku Puri jaiba!",hindi:"Rath Yatra pe Puri jaunga!",use:"Festival plan"},{odia:"Samudra bahut sundara! Photo tolaa!",hindi:"Samundar bahut sundar! Photo lo!",use:"Beach"},{odia:"Party ku aasiba? Kaali sandhya!",hindi:"Party pe aaoge? Kal shaam!",use:"Invitation"},{odia:"Bahut bhala stay hela! Dhanyabaad!",hindi:"Bahut achhi stay rahi! Thank you!",use:"Hotel checkout"}],conversation:[{speaker:"Tum",side:"right",odia:"Bhai, iye trip bahut memorable hela!",meaning:"Bhai, ye trip bahut yaadgaar rahi!"},{speaker:"Dost",side:"left",odia:"Haan! Aau aasiba Odisha ku!",meaning:"Haan! Phir aana Odisha!"},{speaker:"Tum",side:"right",odia:"Definitely! Mu Odisha ku miss kariba!",meaning:"Definitely! Main Odisha ko miss karunga!"},{speaker:"Dost",side:"left",odia:"Jay Jagannath! Aau bheti heba!",meaning:"Jai Jagannath! Phir milenge!"}],proTip:"Phase 4 done! Ab tum real-life situations — doctor, restaurant, office, hotel, temple, beach, emergencies — sab Odia mein handle kar sakte ho! Bahut badiya progress! 🎉🔥",revision:[{odia:"Sahajya karaa!",hindi:"Help karo!"},{odia:"Mu aasuchi!",hindi:"Main aa raha!"},{odia:"Bahut maja hela!",hindi:"Bahut maza aaya!"}]}
+  };
+
+  // Phase 5: Conversations (41-50)
+  const phase5 = {
+    41:{focus:"Small talk master class — Casual baatein Odia mein.",phrases:[{odia:"Kana chalichi?",hindi:"Kya chal raha hai?",use:"Casual greeting"},{odia:"Kichhi khaas naahiin",hindi:"Kuch khaas nahi",use:"Casual reply"},{odia:"Bahut din hela bheti naahiin!",hindi:"Bahut din ho gaye!",use:"After long time"},{odia:"Tume kuaade rahuchi?",hindi:"Tum kahan reh rahe ho?",use:"Address poochna"},{odia:"Kaama kemiti chaalichi?",hindi:"Kaam kaisa chal raha?",use:"Work talk"},{odia:"Family sabuu bhala?",hindi:"Family sab theek?",use:"Family inquiry"},{odia:"Nua kana achhi?",hindi:"Naya kya hai?",use:"Updates poochna"},{odia:"Same old same old!",hindi:"Wahi purana!",use:"Nothing new"},{odia:"Aaji chhuti achhi?",hindi:"Aaj chhuti hai?",use:"Holiday poochna"},{odia:"Weekend kana plan?",hindi:"Weekend kya plan?",use:"Plan poochna"},{odia:"Long time no see bhai!",hindi:"Bohot din baad!",use:"Old friend meeting"}],conversation:[{speaker:"Colleague",side:"left",odia:"Are bhai! Kemiti achhi? Bahut din hela!",meaning:"Are bhai! Kaise ho? Bahut din ho gaye!"},{speaker:"Tum",side:"right",odia:"Mu bhala! Tume? Kaama kemiti?",meaning:"Main theek! Tum? Kaam kaisa?"},{speaker:"Colleague",side:"left",odia:"Chhuti re achhi aaji! Kana kariba?",meaning:"Chhuti pe hoon aaj! Kya karein?"},{speaker:"Tum",side:"right",odia:"Chala coffee pibu!",meaning:"Chalo coffee peete hain!"}],proTip:"Small talk mein 'Kana chalichi?' poochna sabse natural hai — jaise Hindi mein 'Kya chal raha hai?' Same vibe!",revision:[{odia:"Party ku aasiba?",hindi:"Party pe aaoge?"},{odia:"Mu definitely aasiba!",hindi:"Main zaroor aaunga!"},{odia:"Kebe aau kuaade?",hindi:"Kab aur kahan?"}]},
+    42:{focus:"Debate aur opinion dena — Agree/Disagree Odia mein.",phrases:[{odia:"Mu agree karuchi",hindi:"Main agree karta hoon",use:"Agreement"},{odia:"Mu agree naahiin",hindi:"Main agree nahi",use:"Disagreement"},{odia:"Mu ra opinion re...",hindi:"Meri raay mein...",use:"Opinion dena"},{odia:"Tume thik kahuchi",hindi:"Tum sahi keh rahe",use:"Validate someone"},{odia:"Mu alag think karuchi",hindi:"Main alag sochta hoon",use:"Different opinion"},{odia:"Iye bahut important topic",hindi:"Ye bahut important topic hai",use:"Topic highlight"},{odia:"Dui pakha achhi",hindi:"Dono taraf hain",use:"Both sides"},{odia:"Mu bi same think karuchi!",hindi:"Main bhi same sochta hoon!",use:"Same opinion"},{odia:"Haan, kintu...",hindi:"Haan, lekin...",use:"Partial agreement"},{odia:"Aau bujhaao?",hindi:"Aur batao/samjhao?",use:"More info"},{odia:"Thik baat!",hindi:"Sahi baat!",use:"Strong agreement"}],conversation:[{speaker:"Dost",side:"left",odia:"Mu think karuchi Odia food best!",meaning:"Main sochta hoon Odia food best!"},{speaker:"Tum",side:"right",odia:"Mu bi agree! Maachha besara amazing!",meaning:"Main bhi agree! Fish curry amazing!"},{speaker:"Dost",side:"left",odia:"Haan, kintu Bengali food bi bhala!",meaning:"Haan, lekin Bengali food bhi achha!"},{speaker:"Tum",side:"right",odia:"Thik baat! Dui ta bi swadist!",meaning:"Sahi baat! Dono tasty hain!"}],proTip:"'Kintu' = 'Lekin/But' — ye word debates mein sabse useful hai. 'Haan, kintu...' se start karo toh polite disagreement hoti hai!",revision:[{odia:"Kana chalichi?",hindi:"Kya chal raha?"},{odia:"Bahut din hela!",hindi:"Bahut din ho gaye!"},{odia:"Weekend kana plan?",hindi:"Weekend kya plan?"}]},
+    43:{focus:"Negotiate karna — Price, Deal, Arrangement Odia mein.",phrases:[{odia:"Kama karaa thoda",hindi:"Thoda kam karo",use:"Bargaining"},{odia:"Best price kana?",hindi:"Best price kya?",use:"Final price"},{odia:"Bahut zyada!",hindi:"Bahut zyada!",use:"Too expensive"},{odia:"Mu regular customer",hindi:"Main regular customer hoon",use:"Loyalty card play"},{odia:"Bulk re kama heba?",hindi:"Bulk mein kam hoga?",use:"Wholesale rate"},{odia:"Deal kariba?",hindi:"Deal karein?",use:"Deal propose"},{odia:"Last offer kana?",hindi:"Last offer kya?",use:"Final negotiation"},{odia:"Thik achhi, deal!",hindi:"Theek hai, done!",use:"Accept deal"},{odia:"Naa, bahut high",hindi:"Nahi, bahut zyada",use:"Walk away"},{odia:"Aau option achhi?",hindi:"Aur option hai?",use:"Alternatives"},{odia:"Tume best price diya!",hindi:"Best price de do!",use:"Push for discount"}],conversation:[{speaker:"Tum",side:"right",odia:"Bhaiya, iye saree kete?",meaning:"Bhaiya, ye saree kitne ki?"},{speaker:"Dukan",side:"left",odia:"Dui hajaar tanka",meaning:"2000 rupaye"},{speaker:"Tum",side:"right",odia:"Bahut zyada! Eka hajaar paancha sau?",meaning:"Bahut zyada! 1500?"},{speaker:"Dukan",side:"left",odia:"Aath sau, last price!",meaning:"1800, last price!"},{speaker:"Tum",side:"right",odia:"Thik achhi, deal! Pack karaa!",meaning:"Theek hai, done! Pack karo!"}],proTip:"Odisha ke bazaaron mein bargaining normal hai. 'Kama karaa' bol ke shuru karo, phir slowly price negotiate karo. Always smile karte hue karo! 😊",revision:[{odia:"Mu agree karuchi",hindi:"Main agree karta"},{odia:"Haan, kintu...",hindi:"Haan, lekin..."},{odia:"Thik baat!",hindi:"Sahi baat!"}]},
+    44:{focus:"Phone pe baat karna — Full phone conversation Odia mein.",phrases:[{odia:"Hello, kie boluchi?",hindi:"Hello, kaun bol raha?",use:"Phone uthana"},{odia:"Mu Tarun boluchi",hindi:"Main Tarun bol raha hoon",use:"Identify yourself"},{odia:"Tume kebe free?",hindi:"Tum kab free ho?",use:"Schedule"},{odia:"Ebe baat kari paaribi?",hindi:"Abhi baat kar sakte ho?",use:"Availability check"},{odia:"Pare phone kariba",hindi:"Baad mein phone karunga",use:"Call back"},{odia:"Message re pathaauchi",hindi:"Message mein bhejta hoon",use:"Switch to text"},{odia:"Signal clear naahiin",hindi:"Signal clear nahi hai",use:"Bad network"},{odia:"Aau thare bolu?",hindi:"Ek baar aur bolo?",use:"Repeat request"},{odia:"Mu samjhi gali",hindi:"Main samajh gaya",use:"Understood"},{odia:"OK, bye! Aau bheti heba!",hindi:"OK bye! Phir milenge!",use:"Phone end"},{odia:"Miss call diya",hindi:"Miss call de do",use:"Callback request"}],conversation:[{speaker:"Tum",side:"right",odia:"Hello? Ravi bhai?",meaning:"Hello? Ravi bhai?"},{speaker:"Ravi",side:"left",odia:"Haan! Kie? Tarun?",meaning:"Haan! Kaun? Tarun?"},{speaker:"Tum",side:"right",odia:"Haan mu! Tume kebe free? Bhetiba!",meaning:"Haan main! Tum kab free? Milna hai!"},{speaker:"Ravi",side:"left",odia:"Sandhya ku free. Kahaan bhetiba?",meaning:"Shaam ko free. Kahan milein?"},{speaker:"Tum",side:"right",odia:"Coffee shop, paancha baje. OK?",meaning:"Coffee shop, 5 baje. OK?"},{speaker:"Ravi",side:"left",odia:"Done! Aau bheti heba!",meaning:"Done! Phir milte hain!"}],proTip:"Phone pe 'Kie boluchi?' (Kaun bol raha?) — ye first question hoga. Apna naam turant bolo: 'Mu Tarun boluchi'. Simple aur clear!",revision:[{odia:"Deal kariba?",hindi:"Deal karein?"},{odia:"Last offer kana?",hindi:"Last offer kya?"},{odia:"Regular customer",hindi:"Regular customer"}]},
+    45:{focus:"Gossip aur news share karna — Fun baatein Odia mein.",phrases:[{odia:"Sunilaa kana?",hindi:"Suna kya?",use:"Gossip start"},{odia:"Tuma ku pataa?",hindi:"Tumhe pata hai?",use:"Did you know"},{odia:"Sach?! Believe naahiin!",hindi:"Sach?! Yakeen nahi!",use:"Shock express"},{odia:"Kie kahilaa?",hindi:"Kisne kaha?",use:"Source poochna"},{odia:"Secret achhi!",hindi:"Secret hai!",use:"Secret share"},{odia:"Kau ku kahiba naahiin!",hindi:"Kisi ko mat batana!",use:"Keep secret"},{odia:"Bahut interesting!",hindi:"Bahut interesting!",use:"Reaction"},{odia:"Mu bi sunichi!",hindi:"Maine bhi suna!",use:"Confirm gossip"},{odia:"Naa re! Sach mein?",hindi:"Nahi re! Sach mein?",use:"Disbelief"},{odia:"Pura story bolu!",hindi:"Puri story bolo!",use:"Full story demand"},{odia:"Then kana hela?",hindi:"Phir kya hua?",use:"Story continue"}],conversation:[{speaker:"Dost",side:"left",odia:"Bhai! Sunilaa? Rahul married!",meaning:"Bhai! Suna? Rahul ki shaadi ho gayi!"},{speaker:"Tum",side:"right",odia:"Sach?! Kebe? Kie sahita?",meaning:"Sach?! Kab? Kiske saath?"},{speaker:"Dost",side:"left",odia:"Last month! Se Priya sahita!",meaning:"Last month! Priya ke saath!"},{speaker:"Tum",side:"right",odia:"Wah! Bahut bhala news! Congratulations!",meaning:"Wah! Bahut achhi news! Congratulations!"}],proTip:"'Sunilaa?' (Suna?) se koi bhi gossip ya news sharing natural shuru hoti hai. Odia mein gossip bahut fun hai — log expressive hain!",revision:[{odia:"Hello, kie boluchi?",hindi:"Kaun bol raha?"},{odia:"Ebe baat kari paaribi?",hindi:"Abhi baat kar sakte?"},{odia:"Aau bheti heba!",hindi:"Phir milenge!"}]},
+    46:{focus:"Story telling — Kissa sunana Odia mein.",phrases:[{odia:"Eka kissa sunao",hindi:"Ek kissa sunao",use:"Story request"},{odia:"Bahut pahile...",hindi:"Bahut pehle...",use:"Once upon a time"},{odia:"Then kana hela jaanou?",hindi:"Phir kya hua jaano?",use:"Suspense"},{odia:"Se bahut darila!",hindi:"Wo bahut dara!",use:"Scared reaction"},{odia:"Sabuu lok hasile!",hindi:"Sab log hase!",use:"Everyone laughed"},{odia:"End mein...",hindi:"Ant mein...",use:"Conclusion"},{odia:"Iye sach kissa!",hindi:"Ye sachchi kahani hai!",use:"True story"},{odia:"Bahut funny!",hindi:"Bahut funny!",use:"Funny story react"},{odia:"Aau sunao! Aau!",hindi:"Aur sunao! Aur!",use:"More stories"},{odia:"Mu bi eka kissa kahiba",hindi:"Main bhi ek kissa bataunga",use:"Your turn"},{odia:"Bahut bhala kissa hela!",hindi:"Bahut achhi kahani thi!",use:"Story appreciation"}],conversation:[{speaker:"Tum",side:"right",odia:"Bhai, eka funny kissa sunao!",meaning:"Bhai, ek funny kissa sunao!"},{speaker:"Dost",side:"left",odia:"Sunaa! Bahut pahile, mu eka gaon ku gali...",meaning:"Suno! Bahut pehle, main ek gaon gaya..."},{speaker:"Tum",side:"right",odia:"Then? Kana hela?",meaning:"Phir? Kya hua?"},{speaker:"Dost",side:"left",odia:"Se gaai mu pichhu daaudila! Mu bahut darili!",meaning:"Wo gaay mere peeche bhaagi! Main bahut dara!"}],proTip:"Odia storytelling bahut expressive hai. 'Then kana hela jaanou?' (Phir kya hua jaano?) — ye suspense line use karo toh listener hooked rehta hai!",revision:[{odia:"Sunilaa kana?",hindi:"Suna kya?"},{odia:"Sach?! Believe naahiin!",hindi:"Yakeen nahi!"},{odia:"Pura story bolu!",hindi:"Puri story bolo!"}]},
+    47:{focus:"Plan banana aur organize karna — Trip, Party, Event.",phrases:[{odia:"Plan kariba?",hindi:"Plan karein?",use:"Start planning"},{odia:"Budget kete?",hindi:"Budget kitna?",use:"Money discuss"},{odia:"Kie kie aasiba?",hindi:"Kaun kaun aayega?",use:"Guest list"},{odia:"Date fix kariba",hindi:"Date fix karein",use:"Finalize date"},{odia:"Location decide hela?",hindi:"Location decide hua?",use:"Venue check"},{odia:"Mu arrange kariba",hindi:"Main arrange karunga",use:"Take responsibility"},{odia:"Tume kana aanibi?",hindi:"Tum kya laoge?",use:"Contribution"},{odia:"Sabuu ku inform karaa",hindi:"Sab ko inform karo",use:"Communication"},{odia:"Backup plan achhi?",hindi:"Backup plan hai?",use:"Safety plan"},{odia:"Bahut bhala plan hela!",hindi:"Bahut achha plan hua!",use:"Appreciate plan"},{odia:"Cancel hela ki?",hindi:"Cancel hua kya?",use:"Confirm status"}],conversation:[{speaker:"Tum",side:"right",odia:"Weekend trip plan kariba? Puri jaiba!",meaning:"Weekend trip plan karein? Puri chalein!"},{speaker:"Dost",side:"left",odia:"Bahut bhala idea! Budget kete?",meaning:"Bahut achha idea! Budget kitna?"},{speaker:"Tum",side:"right",odia:"Per person dui hajaar. Hotel mu book kariba",meaning:"Per person 2000. Hotel main book karunga"},{speaker:"Dost",side:"left",odia:"Done! Mu transport arrange kariba!",meaning:"Done! Main transport arrange karunga!"}],proTip:"Group plans mein clear role division karo: 'Mu hotel kariba, tume transport, se food!' — sab organized rehta hai!",revision:[{odia:"Eka kissa sunao",hindi:"Ek kissa sunao"},{odia:"Bahut funny!",hindi:"Bahut funny!"},{odia:"Mu bi eka kissa kahiba",hindi:"Main bhi ek kissa bataunga"}]},
+    48:{focus:"Complain karna aur problem solve karna.",phrases:[{odia:"Mu ku problem achhi",hindi:"Mujhe problem hai",use:"Issue raise karna"},{odia:"Iye bhala naahiin",hindi:"Ye theek nahi hai",use:"Complain"},{odia:"Mu satisfy naahiin",hindi:"Main satisfy nahi hoon",use:"Dissatisfaction"},{odia:"Manager ku bulao",hindi:"Manager ko bulao",use:"Escalate"},{odia:"Iye fix karaa",hindi:"Ye fix karo",use:"Demand fix"},{odia:"Kebe solve heba?",hindi:"Kab solve hoga?",use:"Timeline"},{odia:"Mu complaint likhiba",hindi:"Main complaint likhunga",use:"Written complaint"},{odia:"Refund diya",hindi:"Refund do",use:"Money back"},{odia:"Iye accept naahiin",hindi:"Ye acceptable nahi",use:"Reject"},{odia:"Dayakari, solve karaa",hindi:"Please solve karo",use:"Polite complaint"},{odia:"Dhanyabaad, solve hela!",hindi:"Thank you, solve ho gaya!",use:"Resolution"}],conversation:[{speaker:"Tum",side:"right",odia:"Bhaiya, iye product kharap achhi!",meaning:"Bhaiya, ye product kharab hai!"},{speaker:"Dukan",side:"left",odia:"Kana problem achhi?",meaning:"Kya problem hai?"},{speaker:"Tum",side:"right",odia:"Kaam karuni! Change karaa ki refund diya!",meaning:"Kaam nahi karta! Change karo ya refund do!"},{speaker:"Dukan",side:"left",odia:"Thik achhi, nua eka duchi!",meaning:"Theek hai, naya de deta hoon!"}],proTip:"Complaint karte waqt 'Dayakari' (Please) lagana mat bhoolo — Odia mein polite rehke complaint karna zyada effective hai!",revision:[{odia:"Plan kariba?",hindi:"Plan karein?"},{odia:"Budget kete?",hindi:"Budget kitna?"},{odia:"Sabuu ku inform karaa",hindi:"Sab ko inform karo"}]},
+    49:{focus:"Jokes aur humor — Hasna aur hasaana Odia mein.",phrases:[{odia:"Eka joke sunao!",hindi:"Ek joke sunao!",use:"Joke demand"},{odia:"Ha ha ha! Bahut funny!",hindi:"Ha ha ha! Bahut funny!",use:"Laugh react"},{odia:"Mu hasuchi bahut!",hindi:"Main bahut has raha!",use:"Laughing hard"},{odia:"Aau eka sunao!",hindi:"Ek aur sunao!",use:"More jokes"},{odia:"Tume bahut funny!",hindi:"Tum bahut funny ho!",use:"Praise humor"},{odia:"Iye joke bhala naahiin!",hindi:"Ye joke achha nahi!",use:"Bad joke react"},{odia:"Mu ku joke aase!",hindi:"Mujhe ek joke aata hai!",use:"Share your joke"},{odia:"Sabuu hasuchi!",hindi:"Sab has rahe!",use:"Everyone laughing"},{odia:"Pet dhuruchi hasire!",hindi:"Pet dard ho raha hasne se!",use:"Laughing too much"},{odia:"Comedy king tume!",hindi:"Comedy king ho tum!",use:"Funny person praise"}],conversation:[{speaker:"Tum",side:"right",odia:"Bhai eka joke sunao!",meaning:"Bhai ek joke sunao!"},{speaker:"Dost",side:"left",odia:"OK sunaa: Teacher kahile 'eka sentence bolu Odia mein'...",meaning:"OK suno: Teacher bola 'ek sentence bolo Odia mein'..."},{speaker:"Tum",side:"right",odia:"Then?",meaning:"Phir?"},{speaker:"Dost",side:"left",odia:"Student kahile 'Mu bujhi paruni!' Ha ha ha!",meaning:"Student bola 'Mujhe samajh nahi aaya!' Ha ha ha!"},{speaker:"Tum",side:"right",odia:"Ha ha! Bahut funny! Mu bi same situation!",meaning:"Ha ha! Bahut funny! Meri bhi same situation!"}],proTip:"Humor sabse fast bonding ka tarika hai. 'Pet dhuruchi hasire!' (Pet dard ho raha hasne se) — ye bol do toh saamne waala aur funny stories sunayega!",revision:[{odia:"Mu ku problem achhi",hindi:"Mujhe problem hai"},{odia:"Iye fix karaa",hindi:"Ye fix karo"},{odia:"Dayakari solve karaa",hindi:"Please solve karo"}]},
+    50:{focus:"Phase 5 Revision! Full conversation skills practice.",phrases:[{odia:"Namaskar! Bahut din hela! Kemiti achhi?",hindi:"Hello! Bahut din ho gaye! Kaise ho?",use:"Reunion"},{odia:"Mu agree! Iye topic bahut important!",hindi:"Main agree! Ye topic bahut important!",use:"Discussion"},{odia:"Kama karaa bhaiya! Eka hajaar last!",hindi:"Kam karo bhai! 1000 last!",use:"Negotiation"},{odia:"Hello, Mu Tarun boluchi, Ravi achhi?",hindi:"Hello, Main Tarun bol raha, Ravi hai?",use:"Phone call"},{odia:"Sunilaa? Rahul Puri shifted!",hindi:"Suna? Rahul Puri shift ho gaya!",use:"News sharing"},{odia:"Weekend Puri trip plan kariba!",hindi:"Weekend Puri trip plan karein!",use:"Planning"},{odia:"Iye product kharap! Refund diya!",hindi:"Ye product kharab! Refund do!",use:"Complaint"},{odia:"Bahut funny joke! Pet dhuruchi!",hindi:"Bahut funny! Pet dard ho raha hasne se!",use:"Humor"},{odia:"Mu eka kissa sunaauchi...",hindi:"Main ek kissa sunata hoon...",use:"Storytelling"},{odia:"Bahut bhala conversation hela!",hindi:"Bahut achhi baat hui!",use:"Conversation end"}],conversation:[{speaker:"Tum",side:"right",odia:"Bhai, ab mu Odia mein full baat kari paaribi!",meaning:"Bhai, ab main Odia mein full baat kar sakta!"},{speaker:"Dost",side:"left",odia:"Bahut impressive! Tume fast sikhila!",meaning:"Bahut impressive! Tum fast seekhe!"},{speaker:"Tum",side:"right",odia:"Tuma sahajya paain dhanyabaad!",meaning:"Tumhari help ke liye shukriya!"},{speaker:"Dost",side:"left",odia:"Kichhi naa bhai! Proud of you! 🎉",meaning:"Koi baat nahi bhai! Proud of you! 🎉"}],proTip:"Phase 5 complete! Ab tum Odia mein casual baatein, negotiate, phone calls, gossip, stories, jokes, plans, aur complaints — sab handle kar sakte ho! Almost fluent! 🔥🎉",revision:[{odia:"Kie boluchi?",hindi:"Kaun bol raha?"},{odia:"Sunilaa kana?",hindi:"Suna kya?"},{odia:"Deal!",hindi:"Done!"}]}
+  };
+
+  // Phase 6: Fluency Boosters (51-60)
+  const phase6 = {
+    51:{focus:"Proverbs aur sayings — Odia ki kahawatein seekho.",phrases:[{odia:"Jaha kaama saha kaama",hindi:"Jaisa kaam waisa naam",use:"Work = Result"},{odia:"Dhan tharu maan bada",hindi:"Dhan se izzat badi",use:"Respect > Money"},{odia:"Saburi ra phala meetha",hindi:"Sabr ka phal meetha",use:"Patience pays"},{odia:"Eka haata re taali baajeni",hindi:"Ek haath se taali nahi bajti",use:"Takes two"},{odia:"Jahin tharu dhuan sahin tharu aagya",hindi:"Jahan dhuan wahan aag",use:"Where smoke there fire"},{odia:"Khaali kalasi kala baadheni",hindi:"Khaali bartan zyada bajta",use:"Empty vessels"},{odia:"Jete bada nimba sete bada kadua",hindi:"Jitna bada neem utna kadwa",use:"Bigger = bitter"},{odia:"Haste mukha re sabuu aase",hindi:"Haste chehre pe sab aate hain",use:"Smile attracts"},{odia:"Kaama kale kaama, nahin kale arama",hindi:"Kaam karo toh kaam, nahi toh aaram",use:"Work or rest"},{odia:"Biruti chota, gunahin bada",hindi:"Body chhoti, gun bade",use:"Small but mighty"}],conversation:[{speaker:"Dost",side:"left",odia:"Bhai, mu bahut impatient!",meaning:"Bhai, main bahut impatient hoon!"},{speaker:"Tum",side:"right",odia:"Saburi ra phala meetha bhai!",meaning:"Sabr ka phal meetha hai bhai!"},{speaker:"Dost",side:"left",odia:"Wah! Tume Odia proverb bi jaanaa?",meaning:"Wah! Tum Odia proverb bhi jaante ho?"},{speaker:"Tum",side:"right",odia:"Haan! Haste mukha re sabuu aase!",meaning:"Haan! Haste chehre pe sab aate hain!"}],proTip:"Proverbs use karo baat mein — Odia log impressed ho jaayenge! 'Saburi ra phala meetha' sabse versatile proverb hai.",revision:[{odia:"Bahut bhala conversation hela!",hindi:"Bahut achhi baat hui!"},{odia:"Mu proud!",hindi:"Mujhe garv hai!"},{odia:"Full baat kari paaribi!",hindi:"Full baat kar sakta!"}]},
+    52:{focus:"Odia slang aur cool words — Street language.",phrases:[{odia:"Bhaari!",hindi:"Ekdum mast! / Amazing!",use:"Cool bolna"},{odia:"Fataa!",hindi:"Phataa! / Mind-blowing!",use:"Surprised"},{odia:"Bindaas!",hindi:"Bindaas! / Chill!",use:"Relaxed"},{odia:"Chhod de!",hindi:"Chhod de! / Leave it!",use:"Let it go"},{odia:"Jhakaas!",hindi:"Jhakaas! / Awesome!",use:"Super cool"},{odia:"Chup!",hindi:"Chup! / Quiet!",use:"Shh bolna"},{odia:"Pakka?",hindi:"Pakka? / Confirm?",use:"Confirm karna"},{odia:"Mu ready!",hindi:"Main ready!",use:"All set"},{odia:"Tension free!",hindi:"Tension free!",use:"No worries"},{odia:"Full power!",hindi:"Full power! / Full energy!",use:"Energetic"},{odia:"Bahut bhaari re!",hindi:"Ekdum mast re!",use:"Super cool react"}],conversation:[{speaker:"Dost",side:"left",odia:"Bhai! Nua bike kinili!",meaning:"Bhai! Nayi bike li!"},{speaker:"Tum",side:"right",odia:"Bhaari re! Fataa! Kete ki kinilaa?",meaning:"Mast re! Kitne ki li?"},{speaker:"Dost",side:"left",odia:"Eka lakh! Full power bike!",meaning:"Ek lakh! Full power bike!"},{speaker:"Tum",side:"right",odia:"Jhakaas! Ride ku chala!",meaning:"Awesome! Ride pe chalo!"}],proTip:"'Bhaari' sabse useful slang hai — har jagah chalega! 'Bhaari khaanaa' = Mast khaana, 'Bhaari movie' = Mast movie, 'Bhaari bhai!' = Mast bhai!",revision:[{odia:"Saburi ra phala meetha",hindi:"Sabr ka phal meetha"},{odia:"Haste mukha re sabuu aase",hindi:"Haste chehre pe sab aate hain"},{odia:"Kaama kale kaama",hindi:"Kaam karo toh kaam"}]},
+    53:{focus:"Odia gaane aur music ki baat — Songs aur rhythm.",phrases:[{odia:"Gaana gao!",hindi:"Gaana gao!",use:"Song request"},{odia:"Iye gaana bahut bhala!",hindi:"Ye gaana bahut achha!",use:"Song praise"},{odia:"Kie gaaouchi?",hindi:"Kaun gaa raha?",use:"Singer poochna"},{odia:"Mu ku Odia gaana bhala laage",hindi:"Mujhe Odia gaane pasand",use:"Music preference"},{odia:"Volume bada karaa",hindi:"Volume badha do",use:"Volume up"},{odia:"Nua gaana achhi?",hindi:"Naya gaana hai?",use:"New songs"},{odia:"Dance kariba?",hindi:"Dance karein?",use:"Dance invite"},{odia:"Rhythm bhaari!",hindi:"Rhythm mast!",use:"Beat appreciate"},{odia:"Karaoke kariba!",hindi:"Karaoke karein!",use:"Karaoke plan"},{odia:"Mu favourite singer",hindi:"Mera favourite singer",use:"Fav share"},{odia:"Aau eka gaana sunao!",hindi:"Ek aur gaana sunao!",use:"More songs"}],conversation:[{speaker:"Tum",side:"right",odia:"Kana Odia gaana recommend kariba?",meaning:"Kaunsa Odia gaana recommend karoge?"},{speaker:"Dost",side:"left",odia:"'Rangabati' sunaa! Classic Odia song!",meaning:"'Rangabati' suno! Classic Odia gaana!"},{speaker:"Tum",side:"right",odia:"Wah! Rhythm bhaari! Dance kari paaribi!",meaning:"Wah! Rhythm mast! Dance ho sakta!"},{speaker:"Dost",side:"left",odia:"Chala, karaoke kariba!",meaning:"Chalo, karaoke karte hain!"}],proTip:"'Rangabati' Odisha ka most famous folk song hai — sab ko pata hai! YouTube pe sun lo — catchy hai aur tum bhi gaa paoge!",revision:[{odia:"Bhaari!",hindi:"Mast! / Amazing!"},{odia:"Fataa!",hindi:"Mind-blowing!"},{odia:"Full power!",hindi:"Full energy!"}]},
+    54:{focus:"Social media aur online baat — Comments, Likes, Share.",phrases:[{odia:"Like karaa!",hindi:"Like karo!",use:"Social media"},{odia:"Share karaa!",hindi:"Share karo!",use:"Content share"},{odia:"Comment karaa!",hindi:"Comment karo!",use:"Engagement"},{odia:"Mu follow karuchi",hindi:"Main follow kar raha",use:"Following"},{odia:"Tuma post bhaari!",hindi:"Tumhari post mast!",use:"Post praise"},{odia:"Selfie toliba?",hindi:"Selfie lein?",use:"Photo together"},{odia:"Tag karaa mu ku!",hindi:"Mujhe tag karo!",use:"Social tag"},{odia:"Story daalo!",hindi:"Story dalo!",use:"Instagram story"},{odia:"Viral heigala!",hindi:"Viral ho gaya!",use:"Trending"},{odia:"DM karuchi",hindi:"DM kar raha hoon",use:"Direct message"},{odia:"Reel banaao!",hindi:"Reel banao!",use:"Content create"}],conversation:[{speaker:"Dost",side:"left",odia:"Bhai! Mu ra post viral heigala!",meaning:"Bhai! Meri post viral ho gayi!"},{speaker:"Tum",side:"right",odia:"Sach?! Dekhao! Share karuchi!",meaning:"Sach?! Dikhao! Share karta hoon!"},{speaker:"Dost",side:"left",odia:"Mu ku tag karaa! Aau comment karaa!",meaning:"Mujhe tag karo! Aur comment karo!"},{speaker:"Tum",side:"right",odia:"Done! Bhaari post! Aau reel banaao!",meaning:"Done! Mast post! Aur reel banao!"}],proTip:"Social media pe Odia mein comment karo — local audience bahut respond karti hai. 'Bhaari!' ya 'Bahut sundara!' likh do — engagement double!",revision:[{odia:"Gaana gao!",hindi:"Gaana gao!"},{odia:"Rhythm bhaari!",hindi:"Rhythm mast!"},{odia:"Rangabati",hindi:"Famous Odia folk song"}]},
+    55:{focus:"Interview aur formal Odia — Professional baatein.",phrases:[{odia:"Namaskar Sir/Madam",hindi:"Hello Sir/Madam",use:"Formal greeting"},{odia:"Mu ra naam Tarun",hindi:"Mera naam Tarun hai",use:"Introduction"},{odia:"Mu Soulflower re kaama kare",hindi:"Main Soulflower mein kaam karta",use:"Company intro"},{odia:"Mu ra experience achhi",hindi:"Mera experience hai",use:"Share expertise"},{odia:"Mu ready achhi",hindi:"Main tayaar hoon",use:"Readiness"},{odia:"Kana opportunity achhi?",hindi:"Kya opportunity hai?",use:"Ask about role"},{odia:"Mu interested achhi",hindi:"Main interested hoon",use:"Show interest"},{odia:"Thank you for your time",hindi:"Aapke time ke liye shukriya",use:"Formal thanks"},{odia:"Mu best try kariba",hindi:"Main best try karunga",use:"Commitment"},{odia:"Aapanka ku bheti kari khushi hela",hindi:"Aapse milke khushi hui",use:"Formal pleasure"}],conversation:[{speaker:"Boss",side:"left",odia:"Namaskar! Tuma experience bujhaao",meaning:"Hello! Apna experience batao"},{speaker:"Tum",side:"right",odia:"Namaskar Sir! Mu Sales mein 5 years kaama karichi",meaning:"Hello Sir! Main Sales mein 5 saal kaam kar raha"},{speaker:"Boss",side:"left",odia:"Bahut bhala! Tuma strength kana?",meaning:"Bahut achha! Tumhari strength kya hai?"},{speaker:"Tum",side:"right",odia:"Mu team manage kari paare, aau target achieve kare",meaning:"Main team manage kar sakta, aur target achieve karta"}],proTip:"Formal Odia mein 'Tume' ki jagah 'Aapanka' use karo — bahut respectful lagta hai. 'Aapanka ku dhanyabaad' = Aapka dhanyavaad.",revision:[{odia:"Like karaa!",hindi:"Like karo!"},{odia:"Viral heigala!",hindi:"Viral ho gaya!"},{odia:"Reel banaao!",hindi:"Reel banao!"}]},
+    56:{focus:"Culture aur traditions — Odia culture ki khaas baatein.",phrases:[{odia:"Odisha bahut rich culture",hindi:"Odisha ki culture bahut rich hai",use:"Culture appreciation"},{odia:"Konark Surya Mandira",hindi:"Konark Sun Temple",use:"Famous monument"},{odia:"Sambalpuri saree",hindi:"Sambalpuri saree (famous)",use:"Traditional dress"},{odia:"Dhokra art",hindi:"Dhokra art (tribal craft)",use:"Famous craft"},{odia:"Odissi dance",hindi:"Odissi dance (classical)",use:"Classical dance"},{odia:"Chhau nach",hindi:"Chhau dance (folk)",use:"Folk dance"},{odia:"Appam",hindi:"Odia special snack",use:"Food culture"},{odia:"Mud pot dahi",hindi:"Mitti ke bartan ki dahi",use:"Traditional food"},{odia:"Handloom famous achhi",hindi:"Handloom famous hai",use:"Textile"},{odia:"Mu Odisha culture ku respect kare",hindi:"Main Odisha culture ko respect karta",use:"Show respect"},{odia:"Bahut diverse culture!",hindi:"Bahut diverse culture!",use:"Appreciation"}],conversation:[{speaker:"Dost",side:"left",odia:"Tume Konark dekhilaa?",meaning:"Tum Konark dekhe?"},{speaker:"Tum",side:"right",odia:"Haan! Bahut magnificent! Surya Mandira bhaari!",meaning:"Haan! Bahut magnificent! Sun Temple mast!"},{speaker:"Dost",side:"left",odia:"Sambalpuri saree bi kinaa! Gift paain!",meaning:"Sambalpuri saree bhi lo! Gift ke liye!"},{speaker:"Tum",side:"right",odia:"Bahut bhala idea! Kuaade mile?",meaning:"Bahut achha idea! Kahan milegi?"}],proTip:"Odisha ka culture 3000+ saal puraana hai. Konark, Jagannath Puri, Chilika Lake, Odissi dance — ye sab world heritage level hain. Respect dikhao toh sab pyaar denge!",revision:[{odia:"Formal: Aapanka ku dhanyabaad",hindi:"Aapka shukriya"},{odia:"Mu interested achhi",hindi:"Main interested hoon"},{odia:"Mu best try kariba",hindi:"Main best try karunga"}]},
+    57:{focus:"Odia idioms aur expressions — Advanced level baatein.",phrases:[{odia:"Haata godi jaadi!",hindi:"Haath pair jod do!",use:"Beg/request intensely"},{odia:"Aakhi bandi hela",hindi:"Aankh band ho gayi (slept)",use:"Fell asleep"},{odia:"Maatha garam!",hindi:"Dimaag garam!",use:"Angry/frustrated"},{odia:"Mu paagal hebi!",hindi:"Main pagal ho jaunga!",use:"Going crazy"},{odia:"Peta puri gala!",hindi:"Pet bhar gaya!",use:"Stomach full"},{odia:"Mu ku gussa aasuchi",hindi:"Mujhe gussa aa raha",use:"Getting angry"},{odia:"Chinta karaa naahiin!",hindi:"Chinta mat karo!",use:"Don't worry"},{odia:"Sabuu thik heba!",hindi:"Sab theek hoga!",use:"Everything OK"},{odia:"Mu handle kariba!",hindi:"Main handle karunga!",use:"Take charge"},{odia:"Eita toh bohut easy!",hindi:"Ye toh bahut easy!",use:"Easy peasy"},{odia:"Mu rock kariba!",hindi:"Main rock karunga!",use:"Confidence"}],conversation:[{speaker:"Dost",side:"left",odia:"Bhai, exam bahut tough hela!",meaning:"Bhai, exam bahut tough tha!"},{speaker:"Tum",side:"right",odia:"Chinta karaa naahiin! Tume pass heba!",meaning:"Chinta mat karo! Tum pass hoge!"},{speaker:"Dost",side:"left",odia:"Mu maatha garam, kichhi yaad naahiin!",meaning:"Dimaag garam, kuch yaad nahi!"},{speaker:"Tum",side:"right",odia:"Sabuu thik heba! Saburi rakhaa!",meaning:"Sab theek hoga! Patience rakho!"}],proTip:"Idioms use karna = next level fluency. 'Maatha garam' aur 'Peta puri gala' — ye do roz use hote hain. Natural Odia jaisa lagega!",revision:[{odia:"Konark Surya Mandira",hindi:"Konark Sun Temple"},{odia:"Sambalpuri saree",hindi:"Famous Odia saree"},{odia:"Odissi dance",hindi:"Classical dance"}]},
+    58:{focus:"Long conversations — Back-to-back baat karna Odia mein.",phrases:[{odia:"Aasaa, gapa kariba!",hindi:"Aao, baatein karte hain!",use:"Chat invite"},{odia:"Bolu bolu, mu sunuchi!",hindi:"Bolo bolo, main sun raha!",use:"Active listener"},{odia:"Haan, then?",hindi:"Haan, phir?",use:"Continue prompt"},{odia:"Interesting! Aau bolu!",hindi:"Interesting! Aur bolo!",use:"Encouraging"},{odia:"Mu bi same feel karuchi!",hindi:"Main bhi same feel karta!",use:"Relate"},{odia:"Exactly! Thik kahilaa!",hindi:"Exactly! Sahi kaha!",use:"Agreement"},{odia:"Hmm, mu think karuchi...",hindi:"Hmm, main soch raha...",use:"Thinking"},{odia:"Eka minute, mu bolu...",hindi:"Ek minute, main bolta hoon...",use:"Turn lena"},{odia:"Summary mein...",hindi:"Summary mein...",use:"Conclude"},{odia:"Bahut bhala gapa hela!",hindi:"Bahut achhi baatein huin!",use:"End chat"},{odia:"Aau gapa kariba kaali!",hindi:"Aur baatein karenge kal!",use:"Continue tomorrow"}],conversation:[{speaker:"Tum",side:"right",odia:"Aasaa bhai, chaa pibu aau gapa kariba!",meaning:"Aa bhai, chai peete hue baatein karte hain!"},{speaker:"Dost",side:"left",odia:"Haan! Bahut din hela gapa naahiin hela!",meaning:"Haan! Bahut din se baatein nahi hui!"},{speaker:"Tum",side:"right",odia:"Bolu bolu! Tuma nua job kemiti?",meaning:"Bolo bolo! Tumhari nayi job kaisi?"},{speaker:"Dost",side:"left",odia:"Bahut bhala! Mu enjoy karuchi!",meaning:"Bahut achhi! Main enjoy kar raha!"},{speaker:"Tum",side:"right",odia:"Bhaari! Mu tuma paain khushi!",meaning:"Mast! Main tumhare liye khush!"},{speaker:"Dost",side:"left",odia:"Dhanyabaad bhai! Tume bi bolu, kana nua?",meaning:"Shukriya bhai! Tum bhi batao, kya naya?"}],proTip:"'Gapa' = Baatcheet/Chat. 'Gapa mariba' = baatein karna. Odia mein 'Chala gapa mariba' (Chalo baatein karte hain) — ye sabse casual invite hai dosto ke beech!",revision:[{odia:"Maatha garam!",hindi:"Dimaag garam!"},{odia:"Sabuu thik heba!",hindi:"Sab theek hoga!"},{odia:"Mu handle kariba!",hindi:"Main handle karunga!"}]},
+    59:{focus:"Mixed situations practice — Random real-life scenarios.",phrases:[{odia:"Airport kuaade achhi?",hindi:"Airport kahan hai?",use:"Travel"},{odia:"Flight kebe?",hindi:"Flight kab hai?",use:"Schedule"},{odia:"Mu Odisha miss kariba!",hindi:"Main Odisha miss karunga!",use:"Leaving feeling"},{odia:"Aau aasiba definitely!",hindi:"Phir aaunga zaroor!",use:"Promise to return"},{odia:"Tuma contact diya",hindi:"Apna contact do",use:"Stay connected"},{odia:"Instagram re follow karaa!",hindi:"Instagram pe follow karo!",use:"Social connect"},{odia:"Mu Odia seekhi paareuchi!",hindi:"Main Odia seekh pa raha hoon!",use:"Achievement"},{odia:"Bahut dhanyabaad sabuu ku!",hindi:"Sab ko bahut shukriya!",use:"Thank everyone"},{odia:"Mu ra Odia family!",hindi:"Meri Odia family!",use:"Bond express"},{odia:"Jay Jagannath! Aau bheti heba!",hindi:"Jai Jagannath! Phir milenge!",use:"Final goodbye"},{odia:"Odisha mu ra second home!",hindi:"Odisha mera second home!",use:"Emotional connect"}],conversation:[{speaker:"Tum",side:"right",odia:"Bhai, mu kaali jauchi. Bahut miss kariba!",meaning:"Bhai, main kal ja raha. Bahut miss karunga!"},{speaker:"Dost",side:"left",odia:"Are! Bahut jaldi? Aau aasiba!",meaning:"Are! Bahut jaldi? Phir aana!"},{speaker:"Tum",side:"right",odia:"Definitely! Odisha mu ra second home!",meaning:"Definitely! Odisha mera second home!"},{speaker:"Dost",side:"left",odia:"Jay Jagannath bhai! Contact re rahiba!",meaning:"Jai Jagannath bhai! Contact mein rehna!"},{speaker:"Tum",side:"right",odia:"Always! Dhanyabaad sabukichhi paain!",meaning:"Always! Shukriya sab kuch ke liye!"}],proTip:"'Odisha mu ra second home' — ye bol do kisi bhi Odia ko aur dekho kaise khushi se bhar jaate hain! Emotional connection sabse powerful hai!",revision:[{odia:"Aasaa gapa kariba!",hindi:"Aao baatein karte hain!"},{odia:"Bahut bhala gapa hela!",hindi:"Bahut achhi baatein huin!"},{odia:"Exactly! Thik kahilaa!",hindi:"Exactly! Sahi kaha!"}]},
+    60:{focus:"FINAL DAY! 🎉 Complete revision aur fluency test — Tum ab Odia bol sakte ho!",phrases:[{odia:"Mu Odia boli paare!",hindi:"Main Odia bol sakta hoon!",use:"Achievement!"},{odia:"60 din mein seekhili!",hindi:"60 din mein seekh liya!",use:"Milestone"},{odia:"Namaskar! Mu ra naama Tarun!",hindi:"Hello! Mera naam Tarun!",use:"Day 1 callback"},{odia:"Kemiti achhi? Mu bhala achhi!",hindi:"Kaise ho? Main theek hoon!",use:"Basic greeting"},{odia:"Iye kete? Kama karaa!",hindi:"Ye kitne? Kam karo!",use:"Shopping"},{odia:"Bhat, maachha, rasgulla diya!",hindi:"Chawal, machli, rasgulla do!",use:"Full meal order"},{odia:"Jay Jagannath! Mu Odisha ku bhala paae!",hindi:"Jai Jagannath! Main Odisha se pyaar!",use:"Love for Odisha"},{odia:"Dhanyabaad sabuu ku!",hindi:"Sab ko shukriya!",use:"Gratitude"},{odia:"Mu ra Odia journey complete!",hindi:"Meri Odia journey complete!",use:"Celebration"},{odia:"Kintu learning kabhi band naahiin!",hindi:"Lekin learning kabhi band nahi!",use:"Growth mindset"},{odia:"Aau bheti heba! Jay Jagannath!",hindi:"Phir milenge! Jai Jagannath!",use:"Beautiful ending"}],conversation:[{speaker:"Tum",side:"right",odia:"Bhai! Mu 60 din mein Odia seekhili!",meaning:"Bhai! Maine 60 din mein Odia seekh li!"},{speaker:"Dost",side:"left",odia:"Wah! Bahut proud! Tume bhaari!",meaning:"Wah! Bahut proud! Tum mast ho!"},{speaker:"Tum",side:"right",odia:"Sabuu tuma sahajya paain! Dhanyabaad!",meaning:"Sab tumhari help se! Shukriya!"},{speaker:"Dost",side:"left",odia:"Tume mu ra best bandhu! Jay Jagannath!",meaning:"Tum mere best dost! Jai Jagannath!"},{speaker:"Tum",side:"right",odia:"Jay Jagannath! Odisha mu ra second home! ❤️",meaning:"Jai Jagannath! Odisha mera second home! ❤️"}],proTip:"🎉 CONGRATULATIONS! 60 din complete! Tumne Odia bolna seekh liya — greetings se lekar fluency tak! Ab bas practice karte raho. Remember: 'Saburi ra phala meetha' — aur tumhara phal aa gaya! 🏆🔥",revision:[{odia:"Mu Odia boli paare!",hindi:"Main Odia bol sakta!"},{odia:"Jay Jagannath!",hindi:"Jai Jagannath!"},{odia:"Aau bheti heba!",hindi:"Phir milenge!"}]}
+  };
+
+  const allDays = {...templates, ...phaseContent, ...phase4to6, ...phase5, ...phase6};
+  return allDays[dayNum] || null;
+}
+
+// Get lesson data for a day
+function getLesson(day) {
+  if (LESSONS[day]) return LESSONS[day];
+  return generateDay(day);
+}
+
+// ═══════════════════════════════════════
+// STATE MANAGEMENT
+// ═══════════════════════════════════════
+let state = {
+  currentDay: 0,
+  maxUnlocked: 1,
+  completedDays: [],
+  streak: 0,
+  lastVisitDate: null,
+  bookmarks: [],
+  showMeanings: true,
+  showingBookmarks: false
+};
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('odia_sikho_state');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      state = {...state, ...parsed};
+    }
+    updateStreak();
+  } catch(e) {}
+}
+
+function saveState() {
+  try {
+    localStorage.setItem('odia_sikho_state', JSON.stringify(state));
+  } catch(e) {}
+}
+
+function updateStreak() {
+  const today = new Date().toDateString();
+  if (state.lastVisitDate === today) return;
+  
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  
+  if (state.lastVisitDate === yesterday.toDateString()) {
+    state.streak++;
+  } else if (state.lastVisitDate !== today) {
+    state.streak = 1;
+  }
+  state.lastVisitDate = today;
+  saveState();
+}
+
+// ═══════════════════════════════════════
+// UI RENDERING
+// ═══════════════════════════════════════
+function renderPhaseStrip() {
+  const strip = document.getElementById('phaseStrip');
+  strip.innerHTML = PHASES.map(p => {
+    const currentPhase = getPhase(state.currentDay || 1);
+    const isActive = p.id === currentPhase;
+    const isCompleted = state.completedDays.length >= p.id * 10;
+    return `<div class="phase-chip ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}"
+      onclick="scrollToPhase(${p.id})">${p.emoji} P${p.id}: ${p.name}</div>`;
+  }).join('');
+}
+
+function renderDayGrid() {
+  const grid = document.getElementById('dayGrid');
+  grid.innerHTML = Array.from({length: 60}, (_, i) => {
+    const day = i + 1;
+    const isCompleted = state.completedDays.includes(day);
+    const isCurrent = day === state.currentDay;
+    const isLocked = day > state.maxUnlocked;
+    const isBookmarked = state.bookmarks.some(b => b.day === day);
+    const cls = `day-dot ${isCompleted ? 'completed' : ''} ${isCurrent ? 'current' : ''} ${isLocked ? 'locked' : ''} ${isBookmarked ? 'bookmarked' : ''}`;
+    return `<div class="${cls}" onclick="${isLocked ? '' : `startDay(${day})`}">${day}</div>`;
+  }).join('');
+}
+
+function updateProgress() {
+  const completed = state.completedDays.length;
+  const pct = Math.round((completed / 60) * 100);
+  document.getElementById('progressLabel').textContent = `Day ${state.currentDay || 0} / 60`;
+  document.getElementById('progressPercent').textContent = `${pct}%`;
+  document.getElementById('progressBar').style.width = `${pct}%`;
+  document.getElementById('streakCount').textContent = state.streak;
+}
+
+function renderLesson(day) {
+  const lesson = getLesson(day);
+  if (!lesson) {
+    showToast('Content coming soon!');
+    return;
+  }
+
+  const screen = document.getElementById('lessonScreen');
+  const phase = getPhase(day);
+
+  let html = `
+    <div class="lesson-header fade-in">
+      <span class="lesson-day-badge">Day ${day} • Phase ${phase}</span>
+      <h2>🎯 Aaj ka Focus</h2>
+      <p>${lesson.focus}</p>
+    </div>
+
+    <!-- KEY PHRASES -->
+    <div class="section-card fade-in">
+      <div class="section-title"><span class="section-icon">🗣️</span> Key Phrases</div>
+      <div class="toggle-row">
+        <span class="toggle-label">Meanings dikhao</span>
+        <div class="toggle-switch ${state.showMeanings ? 'on' : ''}" onclick="toggleMeanings()"></div>
+      </div>
+      <div id="phraseList">
+        ${lesson.phrases.map((p, i) => renderPhrase(p, i, day)).join('')}
+      </div>
+    </div>
+
+    <!-- MINI CONVERSATION -->
+    <div class="section-card fade-in">
+      <div class="section-title"><span class="section-icon">💬</span> Mini Conversation</div>
+      ${lesson.conversation.map(c => `
+        <div class="convo-bubble ${c.side}">
+          <div class="convo-speaker">${c.speaker}</div>
+          <div class="convo-odia">${c.odia}</div>
+          <div class="convo-meaning ${state.showMeanings ? '' : 'hidden'}">${c.meaning}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- PRO TIP -->
+    <div class="section-card fade-in">
+      <div class="section-title"><span class="section-icon">💡</span> Pro Tip</div>
+      <div class="pro-tip-box"><p>${lesson.proTip}</p></div>
+    </div>
+
+    <!-- REVISION -->
+    <div class="section-card fade-in">
+      <div class="section-title"><span class="section-icon">🔁</span> Quick Revision</div>
+      ${lesson.revision.map((r, i) => `
+        <div class="revision-phrase">
+          <div class="revision-num">${i + 1}</div>
+          <div>
+            <div class="revision-text">${r.odia}</div>
+            <div class="revision-meaning ${state.showMeanings ? '' : 'hidden'}">${r.hindi}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  screen.innerHTML = html;
+  screen.classList.add('active');
+  document.getElementById('welcomeScreen').style.display = 'none';
+  document.getElementById('bookmarksScreen').classList.remove('active');
+  document.getElementById('bottomNav').style.display = 'flex';
+  state.showingBookmarks = false;
+
+  // Update next button
+  const nextBtn = document.getElementById('nextBtn');
+  if (day >= 60) {
+    nextBtn.textContent = '🎉 Complete!';
+    nextBtn.disabled = true;
+  } else {
+    nextBtn.textContent = 'Agla →';
+    nextBtn.disabled = false;
+  }
+
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function renderPhrase(phrase, index, day) {
+  const isBookmarked = state.bookmarks.some(b => b.odia === phrase.odia);
+  return `
+    <div class="phrase-card">
+      <div class="phrase-odia">${phrase.odia}</div>
+      <div class="phrase-hindi ${state.showMeanings ? '' : 'hidden'}">${phrase.hindi}</div>
+      <div class="phrase-usecase ${state.showMeanings ? '' : 'hidden'}">↳ ${phrase.use}</div>
+      <div class="phrase-actions">
+        <button class="phrase-action-btn btn-repeat" onclick="repeatPhrase('${phrase.odia.replace(/'/g, "\\'")}', '${phrase.hindi.replace(/'/g, "\\'")}')">🗣️ Repeat</button>
+        <button class="phrase-action-btn btn-copy" onclick="copyPhrase('${phrase.odia.replace(/'/g, "\\'")}')">📋 Copy</button>
+        <button class="phrase-action-btn btn-bookmark ${isBookmarked ? 'active' : ''}" onclick="toggleBookmark('${phrase.odia.replace(/'/g, "\\'")}', '${phrase.hindi.replace(/'/g, "\\'")}', '${phrase.use.replace(/'/g, "\\'")}', ${day}, this)">♥ Save</button>
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════
+function startDay(day) {
+  if (day > state.maxUnlocked) return;
+  state.currentDay = day;
+  if (!state.completedDays.includes(day)) {
+    state.completedDays.push(day);
+  }
+  saveState();
+  renderLesson(day);
+  renderPhaseStrip();
+  renderDayGrid();
+  updateProgress();
+}
+
+function nextDay() {
+  if (state.currentDay >= 60) return;
+  const next = state.currentDay + 1;
+  if (next > state.maxUnlocked) state.maxUnlocked = next;
+  saveState();
+  startDay(next);
+}
+
+function prevDay() {
+  if (state.currentDay <= 1) return;
+  startDay(state.currentDay - 1);
+}
+
+function toggleMeanings() {
+  state.showMeanings = !state.showMeanings;
+  saveState();
+  if (state.currentDay > 0) renderLesson(state.currentDay);
+}
+
+let dayGridExpanded = false;
+function toggleDayGrid() {
+  dayGridExpanded = !dayGridExpanded;
+  const grid = document.getElementById('dayGrid');
+  const arrow = document.getElementById('dayArrow');
+  grid.classList.toggle('expanded', dayGridExpanded);
+  arrow.classList.toggle('up', dayGridExpanded);
+}
+
+function scrollToPhase(phaseId) {
+  const firstDay = (phaseId - 1) * 10 + 1;
+  if (firstDay <= state.maxUnlocked) {
+    startDay(firstDay);
+  } else {
+    showToast(`Phase ${phaseId} abhi locked hai! Pehle Phase ${phaseId - 1} complete karo.`);
+  }
+}
+
+function repeatPhrase(odia, hindi) {
+  document.getElementById('repeatPhrase').textContent = odia;
+  document.getElementById('repeatMeaning').textContent = hindi;
+  document.getElementById('repeatModal').classList.add('show');
+  
+  // Try speech synthesis
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(odia);
+    utterance.lang = 'or-IN';
+    utterance.rate = 0.8;
+    speechSynthesis.speak(utterance);
+  }
+}
+
+function closeRepeatModal() {
+  document.getElementById('repeatModal').classList.remove('show');
+}
+
+function copyPhrase(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('📋 Copied!');
+  }).catch(() => {
+    showToast('Copy nahi hua, try again!');
+  });
+}
+
+function toggleBookmark(odia, hindi, use, day, btn) {
+  const idx = state.bookmarks.findIndex(b => b.odia === odia);
+  if (idx >= 0) {
+    state.bookmarks.splice(idx, 1);
+    btn.classList.remove('active');
+    showToast('Bookmark hataya!');
+  } else {
+    state.bookmarks.push({ odia, hindi, use, day });
+    btn.classList.add('active');
+    showToast('♥ Bookmarked!');
+  }
+  saveState();
+}
+
+function showBookmarks() {
+  state.showingBookmarks = true;
+  document.getElementById('welcomeScreen').style.display = 'none';
+  document.getElementById('lessonScreen').classList.remove('active');
+  const screen = document.getElementById('bookmarksScreen');
+  
+  if (state.bookmarks.length === 0) {
+    screen.innerHTML = `<div class="bookmarks-empty"><span>📌</span><p>Abhi koi bookmark nahi hai!<br>Phrases pe ♥ dabao save karne ke liye.</p></div>`;
+  } else {
+    screen.innerHTML = `
+      <div class="section-card">
+        <div class="section-title"><span class="section-icon">♥</span> Saved Phrases (${state.bookmarks.length})</div>
+        ${state.bookmarks.map((b, i) => `
+          <div class="phrase-card">
+            <div class="phrase-odia">${b.odia}</div>
+            <div class="phrase-hindi">${b.hindi}</div>
+            <div class="phrase-usecase">↳ ${b.use} • Day ${b.day}</div>
+            <div class="phrase-actions">
+              <button class="phrase-action-btn btn-repeat" onclick="repeatPhrase('${b.odia.replace(/'/g, "\\'")}', '${b.hindi.replace(/'/g, "\\'")}')">🗣️ Repeat</button>
+              <button class="phrase-action-btn btn-bookmark active" onclick="removeBookmark(${i})">♥ Remove</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+  screen.classList.add('active');
+  document.getElementById('bottomNav').style.display = state.currentDay > 0 ? 'flex' : 'none';
+}
+
+function removeBookmark(idx) {
+  state.bookmarks.splice(idx, 1);
+  saveState();
+  showBookmarks();
+  showToast('Bookmark removed!');
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+loadState();
+renderPhaseStrip();
+renderDayGrid();
+updateProgress();
+
+// Resume if user was on a day
+if (state.currentDay > 0) {
+  renderLesson(state.currentDay);
+}
+</script>
+</body>
+</html>
